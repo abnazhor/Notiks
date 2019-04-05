@@ -1,0 +1,29 @@
+{
+  "name": "proyectofinciclodaw",
+  "version": "0.0.1",
+  "description": "Proyecto de fin de ciclo de DAW.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abnazhor/proyectoFinCicloDAW.git"
+  },
+  "keywords": [
+    "proyectofinciclo"
+  ],
+  "author": "Jorge Barrera Villaú",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abnazhor/proyectoFinCicloDAW/issues"
+  },
+  "homepage": "https://github.com/abnazhor/proyectoFinCicloDAW#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "mysql": "^2.16.0"
+  }
+}
