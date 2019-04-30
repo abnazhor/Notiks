@@ -5,7 +5,11 @@ module.exports = function(app) {
     // Sirve la página de inicio de sesión. Esta página tiene validación tanto por el lado del cliente como por el lado del
     // servidor para poder evitar problemas.
     app.get("/login", (req, res) => {
-        res.send("Inicio de sesión");
+        if (req.session.loggedin) {
+            res.redirect("/home");
+        } else {
+            res.render("login/login");
+        }
     });
 
     // Esta página solo sirve para los accesos web. En caso de utilizar otro dispositivo o utilizar un sistema externo a la
@@ -21,7 +25,4 @@ module.exports = function(app) {
     app.post("/verify", (req, res) => {
         res.send("Verificación de inicio de sesión.");
     });
-
-    
-    // Rutas de la API (No implementadas debido a que la web lo hace todo a través de rutas normales)
 }
