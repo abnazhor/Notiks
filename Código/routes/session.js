@@ -1,4 +1,4 @@
-module.exports = function(app) {
+module.exports = function (app) {
 
     // Rutas principales
 
@@ -6,7 +6,7 @@ module.exports = function(app) {
     // servidor para poder evitar problemas.
     app.get("/login", (req, res) => {
         if (req.session.loggedin) {
-            res.redirect("/home");
+            res.redirect("/boards");
         } else {
             res.render("login/login");
         }
@@ -17,12 +17,23 @@ module.exports = function(app) {
     // Esto se debe a que con esta ruta se elimina la cookie de sesión del sistema y además se redirige al usuario a la página
     // principal.
     app.get("/logout", (req, res) => {
-        res.send("Cierre de sesión");
+        if(req.session.loggedin) {
+            req.session.loggedin = null;
+        }
+        res.redirect("/login");
     });
 
     // Esta página solo sirve para los accesos web, ya que sirve para añadir una variable de sesión y así poder controlar los
     // inicios de sesión directamente a través de peticiones.
     app.post("/verify", (req, res) => {
-        res.send("Verificación de inicio de sesión.");
+        let sql = `SELECT email FROM users WHERE email = '${req.body.email}' and password = '${req.body.password}';`; //NECESITA ENCRIPTACIÓN!!!! 
+        con.query(sql, (err, result) => {
+            if (result.length != 0) {
+                req.session.loggedin = req.body.email;
+                res.redirect("/boards");
+            } else {
+
+            }
+        });
     });
 }

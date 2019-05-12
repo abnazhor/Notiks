@@ -1,6 +1,6 @@
 {
-    "user" : "root",
-    "password" : "root",
-    "database" : "notik_db",
+    "user" : "notiks",
+    "database" : "notiks_db",
+    "password" : "12345",
     "host" : "127.0.0.1"
 }

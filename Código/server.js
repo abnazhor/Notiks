@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql");
 const ejs = require("ejs");
 const session = require("express-session");
+const nodeRSA = require("node-rsa");
 
 const app = express();
 
@@ -13,10 +14,15 @@ const config = require("./config/config"); //Carga la configuración desde archi
 app.use("/data", express.static(__dirname + "/data")); //Directorio de imágenes.
 app.use("/views", express.static(__dirname + "/views")); //Directorio de vistas.
 
+//Clave de ids de tableros. Se utiliza para evitar que el usuario pueda modificar la url de forma que acceda a otros tableros.
+//En caso de que el usuario intentase acceder a otros tableros que no fuesen suyos, el sistema lo devolvería a su pantalla inicial. Esto es una medida disuasoria.
+
+boardKey = new nodeRSA({b: 512});
+
 //Configuración general
 //Obtiene el puerto en el que se va a ejecutar la aplicación y lo añade a una
 //constante para evitar posibles modificaciones en el futuro.
-const port = process.env.PORT || config.cargarConfig().port;
+const port = process.env.PORT || config.loadConfig().port;
 
 app.set("view engine", "ejs"); //Cambia el motor de plantillas a EJS.
 app.use(bodyParser.urlencoded({ extended : false }));
@@ -31,15 +37,25 @@ app.use(session({
 }));
 
 //Conexión con la base de datos de MySQL.
-let con = mysql.createConnection(
-    config.cargarConfigBBDD()
+con = mysql.createConnection(
+    config.getMysqlConfig()
 )
 
 con.connect((error) => {
     try {
-
+        if (error) throw err;
+        console.log("Connected to database.");
     } catch (err) {
-        console.log("An error has occured in database connection process. Check database config.");
+        switch(error.code) {
+            case "ECONNREFUSED":
+            console.log("Connection to the database was refused. Check your database configuration and your database status.");
+            break;
+            case "ER_DBACCESS_DENIED_ERROR":
+            console.log("Access to the database was denied. Check your username and password.");
+            break;
+            default:
+            console.log("An error has ocurred while attempting to connect to the database. Check config.");
+        }
     }
 });
 

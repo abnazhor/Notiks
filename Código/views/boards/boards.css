@@ -16,7 +16,7 @@
     border-radius: 5px;
     display: flex;
     align-items: center;
-    box-shadow: 7px 7px 11px -7px rgb(139, 139, 139);
+    box-shadow: 1px 1px 4px 0px rgba(112,112,112,0.67);
     background-image: url("/data/img/test/background.jpg");
     background-size: cover;
     background-position: center;
@@ -30,22 +30,33 @@
     border: 5px solid rgba(255, 255, 255, 0.349);
 }
 
+#options {
+    width: 20%;
+    height: 5vh;
+    float: left;
+    background-color: green;
+    margin-top: 1.5vh;
+    border-radius: 3px;
+    left: 0.5%;
+    position: relative;
+}
+
 #boards {
-    margin: auto;
-    width: 85%;
-    margin-top: 1vh;
+    width: 78%;
+    margin-top: 1.5vh;
+    float: left;
+    position: relative;
+    left: 1%;
 }
 
 .board {
-    background-color: rgb(255, 119, 65);
+    background-color: rgb(255, 180, 180);
     color: rgb(41, 41, 41);
-    border-radius: 5px;
+    border-radius: 3px;
     margin: auto;
-    padding: 0.25px 0% 0.25px 0%;
-    margin-bottom: 1%;
-    width: 49%;
-    margin: 0.5%;
-    box-shadow: 7px 7px 11px -7px rgb(0, 0, 0);
+    padding: 0.15px 0% 0.15px 0%;
+    margin-bottom: 0.5%;
+    width: 100%;
     transition: background-color 0.5s;
     float: left;
 }
@@ -56,19 +67,38 @@
 }
 
 .board h2 {
-    text-align: center;
     pointer-events: none;
+    font-weight: 100;
+    font-size: 19px;
+    font-family: 'Assistant', sans-serif;
+    position: relative;
+    left: 10%;
 }
 
-.board p {
-    text-align: center;
-    pointer-events: none;
+@media only screen and (max-width: 1100px) {
+    #header {
+        width: 97%;
+        height: 20vh;
+    }
+
+    #boards {
+        width: 96%;
+    }
+
+    .board {
+        width: 49%;
+        margin-bottom: 7px;
+    }
 }
 
 @media only screen and (max-width: 800px) {
     #header {
         width: 97%;
         height: 20vh;
+    }
+
+    #boards {
+        width: 96%;
     }
 
     .board {

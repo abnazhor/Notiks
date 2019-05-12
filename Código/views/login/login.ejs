@@ -11,7 +11,14 @@
 <body>
     <div id="base">
         <div id="header">
-            
+            <h3>Login to Notiks</h3>
+        </div>
+        <div id="login">
+            <form action="/verify" method="post">
+                <input type="text" name="email" placeholder="Insert your email" required>  
+                <input type="password" name="password" placeholder="Insert your password" required>
+                <input type="submit" name="validate">
+            </form>
         </div>
     </div>
 </body>
