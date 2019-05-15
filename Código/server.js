@@ -14,11 +14,6 @@ const config = require("./config/config"); //Carga la configuración desde archi
 app.use("/data", express.static(__dirname + "/data")); //Directorio de imágenes.
 app.use("/views", express.static(__dirname + "/views")); //Directorio de vistas.
 
-//Clave de ids de tableros. Se utiliza para evitar que el usuario pueda modificar la url de forma que acceda a otros tableros.
-//En caso de que el usuario intentase acceder a otros tableros que no fuesen suyos, el sistema lo devolvería a su pantalla inicial. Esto es una medida disuasoria.
-
-boardKey = new nodeRSA({b: 512});
-
 //Configuración general
 //Obtiene el puerto en el que se va a ejecutar la aplicación y lo añade a una
 //constante para evitar posibles modificaciones en el futuro.
