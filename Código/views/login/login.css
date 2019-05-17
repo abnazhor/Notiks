@@ -1,0 +1,42 @@
+#base {
+    display: flex;
+    align-items: center;
+}
+
+#operation {
+    background-color: blue;
+    width: 40%;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    margin: auto;
+}
+
+#login_sc {
+    background-color: #ffa500;
+    display: block;
+    margin: auto;
+    height: 50vh;
+    width:  70%;
+    height: 50%;
+}
+
+#signup_sc {
+    background-color: green;
+    display: block;
+    margin: auto;
+    height: 50vh;
+    display: none;
+}
+
+form input[type="text"], form input[type="password"] {
+    width: 60%;
+    display: block;
+    margin: auto;
+}
+
+form input[type="submit"] {
+    width: 30%;
+    display: block;
+    margin: auto;
+}

@@ -49,6 +49,7 @@ CREATE TABLE categories(
     ON DELETE CASCADE
 );
 
+DROP TABLE groups;
 CREATE TABLE groups(
     table_id INT,
     group_id INT NOT NULL AUTO_INCREMENT,

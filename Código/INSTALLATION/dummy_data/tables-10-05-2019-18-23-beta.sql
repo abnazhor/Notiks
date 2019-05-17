@@ -12,8 +12,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-DROP TABLE IF EXISTS `tables`;
-CREATE TABLE `tables` (
+DROP TABLE IF EXISTS `boards`;
+CREATE TABLE `boards` (
   `user_id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `table_id` int(11) NOT NULL,
   `title` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE `tables` (
   CONSTRAINT `fk_tables_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`email`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `tables` VALUES ('alek81@example.org','1','Similique cupiditate qui cum quo un'),
+INSERT INTO `boards` VALUES ('alek81@example.org','1','Similique cupiditate qui cum quo un'),
 ('adelle.ratke@example.org','2','Officia aut vitae culpa consequatur'),
 ('agustin56@example.org','3','Voluptatem enim quas iste voluptate'),
 ('agutkowski@example.net','4','Accusamus consectetur dolorem tempo'),

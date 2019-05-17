@@ -1,3 +1,7 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 #base {
     position: absolute;
     top: 0;
@@ -8,37 +12,69 @@
 }
 
 #header {
-    width: 99%;
-    height: 15vh;
-    margin: auto;
-    margin-top: 1vh;
-    border-radius: 2px;
+    width: 100%;
     display: flex;
+    min-height: 150px;
+    height: 20vh;
     align-items: center;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
     background-image: url("/data/img/test/background.jpg");
     background-size: cover;
     background-position: center;
     background-color: #263238;
 }
 
-#header img {
-    height: 75%;
-    border-radius: 2000px;
+#header div {
+    width: 15vh;
     margin: auto;
+}
+
+#header img {
+    width: 100%;
+    border-radius: 2000px;
     display: block;
     border: 5px solid rgba(255, 255, 255, 0.349);
 }
 
+.divider {
+    background-color: #3b3b4e;
+    min-height: 5px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+}
+
 #options {
-    width: 99%;
+    width: 100%;
+    min-height: 35px;
     height: 5vh;
     background-color: #43435a;
     margin: auto;
-    margin-top: 0.7vh;
-    border-radius: 2px;
     position: relative;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+    display: flex;
+    justify-content: center;
+    width: 99%;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+#options a {
+    display: block;
+    text-align: center;
+    position: relative;
+    text-decoration: none;
+    color: #fff;
+    padding: 9px;
+}
+
+#options div {
+    min-width: 115px;
+    width: 15%;
+    min-height: 35px;
+    height: 100%;
+    display: inline-block;
+}
+
+#options div:hover {
+    background-color: #626279;
 }
 
 #boards {
@@ -46,7 +82,6 @@
     margin: auto;
     margin-top: 1.5vh;
     position: relative;
-    left: 1%;
 }
 
 .board {
@@ -57,9 +92,9 @@
     padding: 0.15px 0% 0.15px 0%;
     margin-bottom: 0.5%;
     float: left;
-    width: 48%;
+    width: 49.5%;
     transition: background-color 0.5s;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
 }
 
 .board:hover {
@@ -87,26 +122,20 @@
 
 #navigator button {
     display: block;
-    background-color: #fff;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
-    padding: 0.5% 4% 0.5% 4%;
-    border: 1px solid #fff;
+    background-color: rgb(243, 243, 243);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+    padding: 1vh 4% 1vh 4%;
+    border: 1px solid rgb(243, 243, 243);
+    transition: background-color 0.5s, border 0.5s;
 }
 
 #navigator button:hover {
     cursor: pointer;
+    background-color: rgb(116, 255, 179);
+    border: 1px solid rgb(116, 255, 179);
 }
 
 @media only screen and (max-width: 1100px) {
-    #header {
-        width: 97%;
-        height: 20vh;
-    }
-
-    #boards {
-        width: 96%;
-    }
-
     .board {
         width: 49%;
         margin-bottom: 7px;
@@ -115,7 +144,7 @@
 
 @media only screen and (max-width: 800px) {
     #header {
-        width: 97%;
+        width: 100%;
         height: 20vh;
     }
 
@@ -124,11 +153,11 @@
     }
 
     .board {
-        width: 98%;
+        width: 100%;
         margin-bottom: 7px;
     }
 
     #options {
-        width: 97%;
+        width: 100%;
     }
 }

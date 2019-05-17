@@ -14,10 +14,20 @@
 <body>
     <div id="base">
         <div id="header">
-            <img src="/data/img/test/test.jpg">
+            <div>
+                <a href="/aboutme">
+                    <img src="/data/img/test/test.jpg">
+                </a>
+            </div>
         </div>
+        <div class="divider"></div>
         <div id="options">
-            <button>New board</button>
+            <div>
+                <a href="javascript:newboard()">New board</a>
+            </div>
+            <div>
+                <a href="/config">Configuration</a>
+            </div>
         </div>
         <div id="boards">
             <% boards.forEach((board) => { %>
