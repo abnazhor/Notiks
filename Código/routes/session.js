@@ -4,11 +4,20 @@ module.exports = function (app) {
 
     // Sirve la página de inicio de sesión. Esta página tiene validación tanto por el lado del cliente como por el lado del
     // servidor para poder evitar problemas.
-    app.get("/login", (req, res) => {
+    app.get("/login(\/:verification)?", (req, res) => {
         if (req.session.loggedin) {
             res.redirect("/boards");
         } else {
-            res.render("login/login");
+            let verif = decodeURIComponent(req.params.verification);
+            if(verif == "2139") {
+                res.render("login/login", {
+                    result: "Wrong username or password"
+                });
+            } else {
+                res.render("login/login", {
+                    result : null
+                });
+            }
         }
     });
 
@@ -32,7 +41,8 @@ module.exports = function (app) {
                 req.session.loggedin = req.body.email;
                 res.redirect("/boards");
             } else {
-
+                let validation = encodeURIComponent("2139");
+                res.redirect("/login/" + validation);
             }
         });
     });

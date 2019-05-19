@@ -108,31 +108,33 @@ body {
     font-size: 19px;
     font-family: 'Assistant', sans-serif;
     position: relative;
-    left: 10%;
+    left: 8%;
 }
 
 #navigator {
-    width: 100%;
-    float: left;
+    width: 20%;
     margin: auto;
     margin-top: 1%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 
 #navigator button {
     display: block;
-    background-color: rgb(243, 243, 243);
+    background-color: #3b3b4e;
+    min-width: 200px;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
     padding: 1vh 4% 1vh 4%;
-    border: 1px solid rgb(243, 243, 243);
+    border: 1px solid #3b3b4e;
+    color: #fff;
     transition: background-color 0.5s, border 0.5s;
+    margin: 0.4%;
 }
 
 #navigator button:hover {
     cursor: pointer;
-    background-color: rgb(116, 255, 179);
-    border: 1px solid rgb(116, 255, 179);
+    background-color: #43435a;
+    border: 1px solid #43435a;
 }
 
 @media only screen and (max-width: 1100px) {

@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <div id="bg-blurred"></div>
     <div id="base">
         <div id="operation">
             <form action="/verify" method="post" id="login_sc">
@@ -24,6 +25,9 @@
                 <input type="password" name="password" placeholder="Repeat your password" required>
                 <input type="submit" name="validate" value="Sign up">
             </form>
+        </div>
+        <div id="error_msg">
+            <%= result %>
         </div>
     </div>
 </body>
