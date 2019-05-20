@@ -17,7 +17,7 @@ body {
     min-height: 150px;
     height: 20vh;
     align-items: center;
-    background-image: url("/data/img/test/background.jpg");
+    background-image: url("/data/login/login_bg.jpeg");
     background-size: cover;
     background-position: center;
     background-color: #263238;
@@ -99,7 +99,7 @@ body {
 
 .board:hover {
     cursor: pointer;
-    background-color: rgb(253, 100, 39);
+    background-color: rgb(252, 143, 99);
 }
 
 .board h2 {
