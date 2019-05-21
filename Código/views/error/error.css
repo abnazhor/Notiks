@@ -1,0 +1,28 @@
+#base {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#error {
+    width: 60%;
+}
+
+#error img {
+    width: 50%;
+    display: block;
+    margin: auto;
+    margin-bottom: 3%;
+}
+
+#error h3 {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 200;
+    font-size: 1.6em;
+    text-align: center;
+}

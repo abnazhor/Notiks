@@ -66,8 +66,8 @@ body {
 }
 
 #options div {
-    min-width: 115px;
-    width: 15%;
+    min-width: 100px;
+    width: 10%;
     min-height: 35px;
     height: 100%;
     display: inline-block;

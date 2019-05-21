@@ -4,7 +4,7 @@ module.exports = function (app) {
 
     // Sirve la página de inicio de sesión. Esta página tiene validación tanto por el lado del cliente como por el lado del
     // servidor para poder evitar problemas.
-    app.get("/login(\/:verification)?", (req, res) => {
+    app.get("/login", (req, res) => {
         if (req.session.loggedin) {
             res.redirect("/boards");
         } else {
@@ -41,8 +41,7 @@ module.exports = function (app) {
                 req.session.loggedin = req.body.email;
                 res.redirect("/boards");
             } else {
-                let validation = encodeURIComponent("2139");
-                res.redirect("/login/" + validation);
+                
             }
         });
     });
