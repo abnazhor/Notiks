@@ -4,7 +4,7 @@ module.exports = function(app) {
     // se salgan de lo que son las rutas habituales.
     app.use((req, res, next) => {
         res.render("error/error", {
-            "error" : "Whatever you are looking for doesn't exists."
+            "error" : "Whatever you are looking for doesn't exist."
         })
     });
 }

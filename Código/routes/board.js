@@ -38,6 +38,8 @@ module.exports = function (app) {
                     res.redirect("/boards");
                 }
             });
+        } else {
+            res.redirect("/login");
         }
     });
 

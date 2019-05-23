@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/views/board/board.css">
+    <link href="https://fonts.googleapis.com/css?family=Assistant:300" rel="stylesheet">
+    <script src="/views/board/board.js"></script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title> <%= board_title %> - Notiks</title>
 </head>
 <body>
     <div id="base">
-        <div id="options">
-
+        <div id="bar" class="darkbar"></div>
+        <div id="options" class="darkoptions">
         </div>
         <div id="desktop">
             <% if(notes.length != 0) { %>
             <% notes.forEach((note) => { %>
-                <div class="note">
-                    <h1><%= note.title %></h1>
+                <div class="note" id="<%= note.note_id %>">
+                    <div class="note_header"><%= note.title %></div>
                     <p><%= note.content %></p>
                 </div>
             <% }) %>
