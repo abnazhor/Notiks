@@ -1,71 +1,91 @@
 document.addEventListener("DOMContentLoaded", () => {
     let notes = document.getElementsByClassName("note");
-    if (notes.length >= 1) {
-        makeDraggable(notes);
-        setNotesPos(notes);
-    }
+    loadContextMenuEvt();
 })
 
 function makeDraggable(notes) {
-    for (let i = 0; i < notes.length; i++) {
-        notes[i].getElementsByClassName("note_header")[0].addEventListener("mousedown", (elem) => {
-            activateDrag(elem);
-        })
 
-        notes[i].getElementsByClassName("note_header")[0].addEventListener("mouseup", (elem) => {
-            deactivateDrag(elem);
-        })
+}
 
-        notes[i].getElementsByClassName("note_header")[0].addEventListener("mousemove", (elem) => {
-            dragElem(elem);
-        })
+function loadContextMenuEvt() {
+    document.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        showContextMenu();
+    });
+    document.addEventListener("click", (event) => {
+        if (event.button == 0) {
+            clearContextMenu();
+        }
+    });
+}
+
+function showContextMenu() {
+    clearContextMenu();
+    let mouse = window.event;
+    let contextMenu = document.createElement("div");
+    let op = document.createElement("a");
+    op.href = "javascript:createNote();";
+    op.innerHTML = "New note";
+    contextMenu.appendChild(op);
+    let height = height => {}
+    let width = width => {
+
+    }
+    contextMenu.id = "contextMenu";
+    contextMenu.style.left = mouse.clientX + "px";
+    contextMenu.style.top = mouse.clientY + "px";
+    console.log(document.body.clientWidth);
+    console.log(document.body.clientHeight);
+    document.body.appendChild(contextMenu);
+}
+
+function clearContextMenu() {
+    try {
+        document.getElementById("contextMenu").style.opacity = "0";
+        setTimeout(() => document.getElementById("contextMenu").remove(), 250);
+    } catch (error) {
+
+    }
+}
+
+function createNote() {
+    try {
+        document.getElementById("empty").remove();
+    } catch {
+
     }
 
-    document.addEventListener("contextmenu", event => event.preventDefault());
-    document.addEventListener("contextmenu", () => {
-        testMenu();   
-    })
-}
+    if (document.getElementById("contextMenu") != null) {
+        try {
+            // Declaración de variables a usar.
+            let location = document.getElementById("contextMenu");
+            let note = document.createElement("div");
+            let header = document.createElement("div");
+            let content = document.createElement("p");
 
-function activateDrag(elem) {
-    let note = elem.target.parentElement;
-    if(!note.classList.contains("dragOn")) note.classList.add("dragOn")
-}
+            header.innerHTML = "Note title";
+            header.classList.add("note_header");
 
-function deactivateDrag(elem) {
-    let note = elem.target.parentElement;
-    if(note.classList.contains("dragOn")) note.classList.remove("dragOn")
-}
+            content.innerHTML = "Insert your content here.";
 
-function dragElem(elem) {
-    let note = elem.target.parentElement;
-    console.log(note);
-}
+            note.appendChild(header);
+            note.appendChild(content);
 
-function setNotesPos(notes) {
-    let desktop = document.getElementById("desktop").getBoundingClientRect();
-    for(let i = 0; i < notes.length; i++) {
-        if(notes[i].style.top == "" && notes[i].style.left == "") {
-            notes[i].style.top = desktop.top + (150*i) + "px";
+            let desktop = document.getElementById("desktop");
+            note.style.left = location.style.left;
+            note.style.top = location.style.top;
+            note.classList.add("note");
+            desktop.appendChild(note);
+        } catch (err) {
+
         }
     }
 }
 
-function testMenu() {
-    clearMenu();
-    let bolita = document.createElement("div");
-    let mouse = window.event;
-    bolita.style.backgroundColor = "green";
-    bolita.style.position = "absolute";
-    bolita.style.borderRadius = "100px";
-    bolita.style.left = mouse.clientX + "px";
-    bolita.style.top = mouse.clientY + "px";
-    bolita.style.width = "50px";
-    bolita.style.height = "50px";
-    bolita.id = "bolita";
-    document.body.appendChild(bolita);
+function unpin() {
+
 }
 
-function clearMenu() {
-    if(document.getElementById("bolita") != null) document.getElementById("bolita").remove();
+function pin() {
+
 }
