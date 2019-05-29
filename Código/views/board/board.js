@@ -83,7 +83,7 @@ function createNote() {
 }
 
 function unpin() {
-
+    
 }
 
 function pin() {
