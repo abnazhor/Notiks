@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql");
 const ejs = require("ejs");
 const session = require("express-session");
-const nodeRSA = require("node-rsa");
+bcrypt = require("bcrypt");
 
 const app = express();
 
@@ -20,7 +20,8 @@ app.use("/views", express.static(__dirname + "/views")); //Directorio de vistas.
 const port = process.env.PORT || config.loadConfig().port;
 
 app.set("view engine", "ejs"); //Cambia el motor de plantillas a EJS.
-app.use(bodyParser.urlencoded({ extended : false }));
+app.use(bodyParser.urlencoded({ extended : true }));
+app.use(bodyParser.json());
 app.use(session({
     secret : "notiks",
     resave : false,
