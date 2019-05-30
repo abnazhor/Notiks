@@ -27,7 +27,7 @@ module.exports = function (app) {
             const SQL2 = `SELECT title FROM boards WHERE board_id = ${req.params.id} and user_id = '${req.session.loggedin}';`;
 
             con.query(SQL2, (err, result) => {
-                if(result.length != 0) {
+                if (result.length != 0) {
                     con.query(SQL, (err2, result2) => {
                         res.render("board/board", {
                             board_title: result[0].title,
@@ -52,8 +52,22 @@ module.exports = function (app) {
     });
 
     // Crea un nuevo tablero. Debe de mostrarse un mensaje en la web donde se ejecuta este método, ya sea de error o de éxito.
-    app.post("/api/board/:id", (req, res) => {
-
+    app.post("/api/board", (req, res) => {
+        if (req.session.loggedin) {
+            const title = req.body.title;
+            const email = req.body.email;
+            const sql = `INSERT INTO boards(user_id, title) VALUES('${email}', '${title}')`;
+            con.query(sql, (err, result) => {
+                try {
+                    if (err) throw err;
+                    res.status(200).send("Board has been successfully created");
+                } catch (err) {
+                    res.status(400).send("An error has occured");
+                }
+            })
+        } else {
+            res.status(400).send("Not logged in.");
+        }
     });
 
     // Devuelve el listado completo de tableros disponibles en formato JSON.
