@@ -55,23 +55,41 @@ module.exports = function (app) {
     app.post("/api/board", (req, res) => {
         if (req.session.loggedin) {
             const title = req.body.title;
-            const email = req.body.email;
+            const email = req.session.loggedin;
+            console.log(title);
             const sql = `INSERT INTO boards(user_id, title) VALUES('${email}', '${title}')`;
             con.query(sql, (err, result) => {
                 try {
                     if (err) throw err;
-                    res.status(200).send("Board has been successfully created");
+                    res.status(200).send({
+                        message: "Board has been created successfully",
+                        status : 200
+                    });
                 } catch (err) {
-                    res.status(400).send("An error has occured");
+                    res.status(400).send({
+                        message: "An error has occured",
+                        status : 400
+                    });
                 }
             })
         } else {
-            res.status(400).send("Not logged in.");
+            res.status(400).send({
+                message: "Forbidden"
+            });
         }
     });
 
     // Devuelve el listado completo de tableros disponibles en formato JSON.
     app.get("/api/boards", (req, res) => {
-
+        if (req.session.loggedin != null) {
+            const SQL = `SELECT board_id, title FROM boards WHERE user_id = '${req.session.loggedin}';`;
+            con.query(SQL, (err, result) => {
+                res.status(200).send(result);
+            });
+        } else {
+            res.status(400).send({
+                message: "Boards couldn't be processed."
+            });
+        }
     });
 }

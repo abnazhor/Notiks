@@ -23,7 +23,7 @@
         <div class="divider"></div>
         <div id="options">
             <div>
-                <a href="javascript:newBoard()">New board</a>
+                <a href="javascript:displayBoard(1)">New board</a>
             </div>
             <div>
                 <a href="/settings">Settings</a>
@@ -42,6 +42,13 @@
         <div id="navigator">
             <button> Previous page </button>
             <button> Next page </button>
+        </div>
+        <div id="board_dialog">
+            <form action="javascript:createBoard()" method="post" id="board_create">
+                <input type="text" placeholder="Table title" required>
+                <button id="cancelbutton">Cancel</button>
+                <input type="submit" value="Create board">
+            </form>
         </div>
     </div>
 </body>
