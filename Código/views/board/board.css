@@ -69,7 +69,6 @@
 
 #contextMenu {
     width: 200px;
-    height: 100px;
     background-color: white;
     position: absolute;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
@@ -87,7 +86,8 @@
 }
 
 #contextMenu a:hover {
-    background-color: green;
+    background-color: #3b3b4e;
+    color: #ffff;
 }
 
 #windowManager {
@@ -111,6 +111,7 @@
 }
 
 @media only screen and (max-width: 1000px) {
+
     .note {
         width: 47%;
         margin: 5px;
@@ -121,7 +122,7 @@
     }
 
     .note_header:hover {
-        padding: 9px;
+        padding: 7px;
     }
 
     .note:nth-child(even) {

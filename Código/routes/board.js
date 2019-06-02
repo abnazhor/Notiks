@@ -23,12 +23,13 @@ module.exports = function (app) {
     app.get("/board/:id", (req, res) => {
         if (req.session.loggedin != null) {
 
-            const SQL = `SELECT note_id, title, content FROM notes WHERE board_id = ${req.params.id};`;
-            const SQL2 = `SELECT title FROM boards WHERE board_id = ${req.params.id} and user_id = '${req.session.loggedin}';`;
+            const SQL = `SELECT title, board_id FROM boards WHERE board_id = ${req.params.id} and user_id = '${req.session.loggedin}';`;
+            const SQL2 = `SELECT note_id, title, posX, posY, content FROM notes WHERE board_id = ${req.params.id};`;
 
-            con.query(SQL2, (err, result) => {
+            con.query(SQL, (err, result) => {
                 if (result.length != 0) {
-                    con.query(SQL, (err2, result2) => {
+                    con.query(SQL2, (err2, result2) => {
+                        req.session.board_id = result[0].board_id;
                         res.render("board/board", {
                             board_title: result[0].title,
                             notes: result2
@@ -56,19 +57,18 @@ module.exports = function (app) {
         if (req.session.loggedin) {
             const title = req.body.title;
             const email = req.session.loggedin;
-            console.log(title);
             const sql = `INSERT INTO boards(user_id, title) VALUES('${email}', '${title}')`;
             con.query(sql, (err, result) => {
                 try {
                     if (err) throw err;
                     res.status(200).send({
                         message: "Board has been created successfully",
-                        status : 200
+                        status: 200
                     });
                 } catch (err) {
                     res.status(400).send({
                         message: "An error has occured",
-                        status : 400
+                        status: 400
                     });
                 }
             })
@@ -90,6 +90,33 @@ module.exports = function (app) {
             res.status(400).send({
                 message: "Boards couldn't be processed."
             });
+        }
+    });
+
+    app.get("/api/board", (req, res) => {
+        if (req.session.loggedin) {
+            const SQL2 = 'SELECT user_id, board_id FROM boards WHERE user_id = ? and board_id = ?';
+            const SQL = `SELECT note_id, title, posX, posY, content FROM notes WHERE board_id = ?;`;
+
+            con.query(SQL2, [
+                req.session.loggedin, 
+                req.session.board_id
+            ],
+            (err, result) => {
+                if(err) throw err;
+                if(result.length != 0) {
+                    con.query(SQL, [req.session.board_id], (err, result) => {
+                        if(err) throw err;
+                        res.status(200).send({
+                            notes: result
+                        })
+                    })
+                } else {
+                    res.status(403).send({
+                        status : 403
+                    })
+                }
+            })
         }
     });
 }

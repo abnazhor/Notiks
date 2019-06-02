@@ -31,6 +31,8 @@ CREATE TABLE notes(
     note_id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(35) NOT NULL,
     content VARCHAR(250) NOT NULL,
+    posX VARCHAR(7) NOT NULL,
+    posY VARCHAR(7) NOT NULL,
     categ_id INT,
     PRIMARY KEY (note_id, board_id),
     CONSTRAINT fk_notes_boards FOREIGN KEY(board_id)
@@ -40,12 +42,21 @@ CREATE TABLE notes(
 
 DROP TABLE categories;
 CREATE TABLE categories(
-    user_id VARCHAR(100) NOT NULL,
-    categ_id INT NOT NULL,
+    categ_id INT NOT NULL AUTO_INCREMENT,
     style VARCHAR(350) NOT NULL,
-    PRIMARY KEY (table_id, categ_id),
-    CONSTRAINT fk_categs_users FOREIGN KEY(user_id)
-    REFERENCES users(user_id)
+    PRIMARY KEY (categ_id)
+);
+
+DROP TABLE categ_note;
+CREATE TABLE categ_note(
+    note_id INT NOT NULL,
+    categ_id INT NOT NULL,
+    PRIMARY KEY(note_id, categ_id),
+    CONSTRAINT fk_categ_categories FOREIGN KEY(categ_id)
+    REFERENCES categories(categ_id)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_categ_notes FOREIGN KEY(note_id)
+    REFERENCES notes(note_id)
     ON DELETE CASCADE
 );
 
