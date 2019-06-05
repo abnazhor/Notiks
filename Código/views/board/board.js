@@ -8,11 +8,11 @@ function makeDraggable(notes) {
 }
 
 function loadContextMenuEvt() {
-    document.addEventListener("contextmenu", (event) => {
+    document.getElementById("desktop").addEventListener("contextmenu", (event) => {
         event.preventDefault();
         showContextMenu();
     });
-    document.addEventListener("click", (event) => {
+    document.getElementById("desktop").addEventListener("click", (event) => {
         if (event.button == 0) {
             clearContextMenu();
         }
@@ -94,6 +94,7 @@ function createNote() {
                 desktop.appendChild(note);
                 updateIdNotes();
             });
+            clearContextMenu();
     }
 }
 
