@@ -12,6 +12,8 @@
 <body>
     <div id="base">
         <div id="bar">
+        </div>
+        <div id="options" class="darkoptions">
             <div>
                 <a href="javascript:saveData()">Save</a>
             </div>
@@ -19,10 +21,14 @@
                 <a href="javascript:settings()">Settings</a>
             </div>
             <div>
-                <a href="javascript:manageGroups()">Manage groups</a>
+                <a href="javascript:manageGroups()">Groups</a>
             </div>
-        </div>
-        <div id="options" class="darkoptions">
+            <div>
+                <a href="javascript:manageGroups()">Categories</a>
+            </div>
+            <div>
+                <a href="/boards">Boards</a>
+            </div>
         </div>
         <div id="desktop">
             <% if(notes.length != 0) { %>
@@ -35,10 +41,17 @@
             <% } else { %>
                 <h1 id="empty">Wow. Such Emptyness</h1>
             <% }; %>
-        <div id="windowManager">
-            <div id="noteManager">
-            </div>
         </div>
+        <div id="dialogManager">
+                <div id="noteManager">
+                </div>
+                <div id="boardManager">
+                </div>
+                <div id="groupManager">
+                </div>
+                <div id="categoryManager">
+                </div>
+                <a href="javascript:toggleDialogManager(2)">Settings</a>
         </div>
     </div>
 </body>

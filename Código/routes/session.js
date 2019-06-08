@@ -32,9 +32,54 @@ module.exports = function (app) {
         res.redirect("/login");
     });
 
+    app.post("/api/login", (req, res) => {
+        let sql = 'SELECT password FROM users WHERE email = ?;';
+        if (!req.session.loggedin) {
+            con.query(sql, [req.body.email], (err, result) => {
+                try {
+                    if (err) throw err;
+                    if (result.length != 0) {
+                        bcrypt.compare(req.body.password, result[0].password).then((ver_result) => {
+                            if (ver_result) {
+                                req.session.loggedin = req.body.email;
+                                res.status(200).send({
+                                    status: 200,
+                                    message: "Logged in"
+                                })
+                            } else {
+                                res.status(403).send({
+                                    status: 403,
+                                    message: "Forbidden"
+                                })
+                            }
+                        }).catch((error) => {
+                            console.log("ERROR!");
+                        })
+                    } else {
+                        res.status(403).send({
+                            status: 403,
+                            message: "Forbidden"
+                        })
+                    }
+                } catch (err) {
+                    res.status(400).send({
+                        status: 403,
+                        message: "Forbidden"
+                    })
+                }
+            })
+        } else {
+            res.status(200).send({
+                status: 200,
+                message: "Logged in"
+            });
+        }
+    })
+
     // Esta página solo sirve para los accesos web, ya que sirve para añadir una variable de sesión y así poder controlar los
     // inicios de sesión directamente a través de peticiones.
-    app.post("/verify", (req, res) => {
+    // DEPRECATED - USE API INSTEAD.
+    /* app.post("/verify", (req, res) => {
         let sql = `SELECT password FROM users WHERE email = '${req.body.email}';`; //NECESITA ENCRIPTACIÓN!!!! 
         con.query(sql, (err, result) => {
             try {
@@ -56,5 +101,5 @@ module.exports = function (app) {
                 res.redirect("/login");
             }
         });
-    });
+    }); */
 }

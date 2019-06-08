@@ -8,12 +8,14 @@ function makeDraggable(notes) {
 }
 
 function loadContextMenuEvt() {
-    document.getElementById("desktop").addEventListener("contextmenu", (event) => {
-        event.preventDefault();
+    document.body.addEventListener("contextmenu", evt => {
+        evt.preventDefault();
+    }) 
+    document.getElementById("desktop").addEventListener("contextmenu", evt => {
         showContextMenu();
     });
-    document.getElementById("desktop").addEventListener("click", (event) => {
-        if (event.button == 0) {
+    document.getElementById("desktop").addEventListener("click", evt => {
+        if (evt.button == 0) {
             clearContextMenu();
         }
     });
@@ -32,8 +34,8 @@ function showContextMenu() {
 
     }
     contextMenu.id = "contextMenu";
-    contextMenu.style.left = mouse.clientX + "px";
-    contextMenu.style.top = mouse.clientY + "px";
+    contextMenu.style.left = calculatePosX(mouse.clientX) + "px";
+    contextMenu.style.top = mouse.clientY + 5 + "px";
     document.body.appendChild(contextMenu);
 }
 
@@ -64,7 +66,7 @@ function createNote() {
         note.appendChild(content);
 
         let desktop = document.getElementById("desktop");
-        note.style.left = location.style.left;
+        note.style.left = calculateNotePosX(location.style.left) + "px";
         note.style.top = location.style.top;
         note.classList.add("note");
         note.id = "X";
@@ -94,7 +96,7 @@ function createNote() {
                 desktop.appendChild(note);
                 updateIdNotes();
             });
-            clearContextMenu();
+        clearContextMenu();
     }
 }
 
@@ -145,4 +147,40 @@ function updateIdNotes() {
                 }
             }
         });
+}
+
+function calculatePosX(posX) {
+    let width = document.body.getBoundingClientRect().width;
+    if(posX + 200 >= width) {
+        return width - 200;
+    } else {
+        return posX;
+    }
+}
+
+function calculateNotePosX(posX) {
+    posX = parseInt(posX.substring(0,posX.length-2));
+    let width = document.body.getBoundingClientRect().width;
+    if(posX + 300 >= width) {
+        return width - 300;
+    } else {
+        return posX;
+    }
+}
+
+function settings() {
+    toggleDialogManager(1);
+}
+
+function toggleDialogManager(opc) {
+    let dialog = document.getElementById("dialogManager");
+
+    switch (opc) {
+        case 1:
+            dialog.style.display = "flex";
+            break;
+        case 2:
+            dialog.style.display = "none";
+            break;
+    }
 }

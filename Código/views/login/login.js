@@ -13,8 +13,42 @@ function moveCurtain() {
     }
 }
 
-function verifyLogin() {
+function verifyLogIn() {
+    let fields = document.forms[0].getElementsByTagName("input");
+    let valid = true;
 
+    try {
+        if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            .test(fields[0].value) && valid) {
+            display("The inserted email is not a correct one.", 1);
+            valid = false;
+        }
+
+        if (valid) {
+            fetch("/api/login", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        email: fields[0].value,
+                        password: fields[1].value
+                    })
+                })
+                .then((response) => response.json())
+                .then((response) => {
+                    if (response.status == 200) {
+                        display("You have successfully logged in.", 2);
+                        setTimeout(() => location.replace("/boards"), 1000);
+                    } else {
+                        display("Provided email or password are wrong.", 1);
+                    }
+                })
+        }
+    } catch {
+        display("Something is wrong. Please check the information provided.", 1);
+    } 
 }
 
 function verifySignUp() {
@@ -60,12 +94,12 @@ function verifySignUp() {
                         display("You have been successfully registered. You can now log in.", 2);
                         moveCurtain();
                     } else {
-                        display("Something went wrong. Please try again.");
+                        display("Something went wrong. Please try again.",1);
                     }
                 })
         }
 
-    } catch (err) {
+    } catch {
         display("Something is wrong. Please check the information provided.", 1);
     }
 }
