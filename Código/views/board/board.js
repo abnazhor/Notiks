@@ -220,13 +220,28 @@ function loadCategoriesData() {
 
 function manageSettings() {
     toggleDialogManager(1);
-
+    hideAllWindowsManagers();
+    let settingsWindow = document.getElementById("boardManager");
+    settingsWindow.style.display = "flex";
 }
 
 function manageGroups() {
     toggleDialogManager(1);
+    hideAllWindowsManagers();
+    let settingsWindow = document.getElementById("groupManager");
+    settingsWindow.style.display = "flex";
 }
 
 function manageNote() {
     toggleDialogManager(1);
+    hideAllWindowsManagers();
+    let settingsWindow = document.getElementById("noteManager");
+    settingsWindow.style.display = "flex";
+}
+
+function hideAllWindowsManagers() {
+    let windowManagers = document.getElementsByClassName("manager");
+    for(let i = 0; i < windowManagers.length ; i++) {
+        windowManagers[i].style.display = "none";
+    }
 }
