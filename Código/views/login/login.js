@@ -44,9 +44,9 @@ function verifyLogIn() {
                     } else {
                         display("Provided email or password are wrong.", 1);
                     }
-                })
+                });
         }
-    } catch {
+    } catch (err) {
         display("Something is wrong. Please check the information provided.", 1);
     } 
 }
@@ -96,10 +96,10 @@ function verifySignUp() {
                     } else {
                         display("Something went wrong. Please try again.",1);
                     }
-                })
+                });
         }
 
-    } catch {
+    } catch (err) {
         display("Something is wrong. Please check the information provided.", 1);
     }
 }

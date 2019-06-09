@@ -1,13 +1,15 @@
+body {
+    background-image: url("https://images.unsplash.com/photo-1552084117-56a987666449?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80");
+    background-size: cover;
+}
+
 #base {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: white;
     font-family: Arial, Helvetica, sans-serif;
-    background-image: url("https://images.unsplash.com/photo-1552084117-56a987666449?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80");
-    background-size: cover;
 }
 
 #bar {
@@ -69,6 +71,7 @@
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
     z-index: 1;
     border-radius: 3px 3px 0px 0px;
+    color: #1a1a1b;
 }
 
 .note_header {
@@ -79,6 +82,14 @@
     text-align: center;
     font-size: 25px;
     border-radius: 2px 2px 0px 0px;
+    border: 2px solid #3b3b4e;
+}
+
+.note_header span {
+    position: relative;
+    left: 8%;
+    display: block;
+    width: 80%;
 }
 
 .note p {
@@ -87,6 +98,13 @@
 
 .note_header:hover {
     padding: 11px;
+}
+
+.note_header a {
+    text-decoration: none;
+    font-size: 15px;
+    float: right;
+    color: #fc8f63;
 }
 
 #desktop>h1 {
@@ -122,13 +140,17 @@
     width: 100%;
     top: 0;
     left: 0;
-    position: absolute;
     z-index: 2;
     background-color: #3b3b4ebd;
     display: none;
+    position: fixed;
 }
 
-#noteManager {
+#noteManager, #categoryManager, #groupManager {
+    display: none;
+}
+
+.manager {
     background-color: #fff;
     height: 80%;
     width: 60%;
@@ -136,6 +158,61 @@
     border-radius: 2px;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
     z-index: 3;
+    display: flex;
+    align-items: center;
+    max-height: 700px;
+}
+
+.manager h3 {
+    font-family: 'Assistant', sans-serif;
+    font-weight: normal;
+    font-size: 20px;
+    width: 85%;
+    margin: auto;
+}
+
+.manager form {
+    display: block;
+    width: 70%;
+    border: 1px solid red;
+    height: 90%;
+    margin: auto;
+    max-height: 500px;
+}
+
+.manager input, .manager textarea {
+    width: 80%;
+    display: block;
+    margin: auto;
+    margin-bottom: 5px;
+    background-color: #3b3b4e;
+    padding: 1% 0.5% 1% 0.5%;
+    border: 3px solid #3b3b4e;
+    color: white;
+}
+
+#display_log {
+    position: absolute;
+    width: 100%;
+    height: 15%;
+    bottom: 5%;
+    display: flex;
+    align-items: center;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 3;
+}
+
+#display_msg {
+    width: 50%;
+    margin: auto;
+    background-color: rgba(255, 0, 0, 0.63);
+    font-size: 18px;
+    padding: 1.3% 0% 1.3% 0%;
+    border-radius: 2px;
+    text-align: center;
+    color: white;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -147,6 +224,10 @@
         position: relative;
         left: unset !important;
         top: unset !important;
+    }
+
+    .note_header span {
+        left: 2%;
     }
 
     .note_header:hover {

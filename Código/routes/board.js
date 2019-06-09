@@ -34,7 +34,7 @@ module.exports = function (app) {
                             board_title: result[0].title,
                             notes: result2
                         });
-                    })
+                    });
                 } else {
                     res.redirect("/boards");
                 }
@@ -65,13 +65,13 @@ module.exports = function (app) {
                         message: "Board has been created successfully",
                         status: 200
                     });
-                } catch (err) {
+                } catch (error) {
                     res.status(400).send({
                         message: "An error has occured",
                         status: 400
                     });
                 }
-            })
+            });
         } else {
             res.status(400).send({
                 message: "Forbidden"
@@ -109,14 +109,14 @@ module.exports = function (app) {
                         if(err) throw err;
                         res.status(200).send({
                             notes: result
-                        })
-                    })
+                        });
+                    });
                 } else {
                     res.status(403).send({
                         status : 403
-                    })
+                    });
                 }
-            })
+            });
         }
     });
-}
+};

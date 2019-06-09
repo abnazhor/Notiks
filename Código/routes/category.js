@@ -1,37 +1,25 @@
-module.exports = function(app) {
-
-    // Rutas para la carga de vistas.
-
-    // Sirve la página con las categorías disponibles.
-    app.get("/categories", (req, res) => {
-
-    });
-
-    // Sirve la página con los datos de la categoría. En esta página se debe de poder editar la categoría.
-    app.get("/category/:id", (req, res) => {
-
-    });
-
-    // Sirve la página por la que se podrá crear una nueva categoría. Utiliza AJAX para completar la funcionalidad. 
-    app.get("/category/new", (req, res) => {
-
-    });
-
-    
+module.exports = function (app) {
     //Rutas para el uso de la API.
 
-    // Elimina una categoría del sistema. Devuelve JSON con booleano indicando el éxito de la operación.
-    app.delete("/api/category/:id", (req, res) => {
-
+    app.get("/api/categories", (req, res) => {
+        const SQL = "SELECT style, title FROM categories;";
+        con.query(SQL, (err, result) => {
+            try {
+                if (err || result.length != 0) throw error;
+                res.status(200).send({
+                    status: 200,
+                    categories: result
+                });
+            } catch (error) {
+                res.status(403).send({
+                    status: 403,
+                    message: "Forbidden"
+                });
+            }
+        });
     });
 
-    // Modifica una categoría del sistema. Devuelve JSON con booleano indicando el éxito de la operación.
-    app.post("/api/category/:id", (req, res) => {
+    app.get("/api/category/:id", (req, res) => {
 
     });
-
-    // Crea una categoría en el sistema. Devuelve JSON con booleano indicando el éxito de la operación.
-    app.post("/api/category/:id", (req, res) => {
-
-    });
-}
+};

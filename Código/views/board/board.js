@@ -1,16 +1,14 @@
+categories_data = [];
+
 document.addEventListener("DOMContentLoaded", () => {
     let notes = document.getElementsByClassName("note");
     loadContextMenuEvt();
-})
-
-function makeDraggable(notes) {
-
-}
+});
 
 function loadContextMenuEvt() {
     document.body.addEventListener("contextmenu", evt => {
         evt.preventDefault();
-    }) 
+    });
     document.getElementById("desktop").addEventListener("contextmenu", evt => {
         showContextMenu();
     });
@@ -19,6 +17,8 @@ function loadContextMenuEvt() {
             clearContextMenu();
         }
     });
+
+    setEditEvent();
 }
 
 function showContextMenu() {
@@ -29,10 +29,6 @@ function showContextMenu() {
     op.href = "javascript:createNote();";
     op.innerHTML = "New note";
     contextMenu.appendChild(op);
-    let height = height => {}
-    let width = width => {
-
-    }
     contextMenu.id = "contextMenu";
     contextMenu.style.left = calculatePosX(mouse.clientX) + "px";
     contextMenu.style.top = mouse.clientY + 5 + "px";
@@ -56,9 +52,15 @@ function createNote() {
         let header = document.createElement("div");
         let content = document.createElement("p");
         let board_id = window.location.href.match(/[0-9]*$/)[0];
+        let link = document.createElement("a");
+        let title = document.createElement("span");
 
-        header.innerHTML = "Note title";
+        title.innerHTML = "Note title";
+        link.innerHTML = "Edit";
+
         header.classList.add("note_header");
+        header.appendChild(link);
+        header.appendChild(title);
 
         content.innerHTML = "Insert your content here.";
 
@@ -76,10 +78,11 @@ function createNote() {
                 headers: {
                     "Content-Type": "application/json"
                 },
+                credentials: "include",
                 body: JSON.stringify({
                     note: {
                         board_id: board_id,
-                        title: header.innerHTML,
+                        title: title.innerHTML,
                         content: content.innerHTML,
                         posX: note.style.left,
                         posY: note.style.top
@@ -90,14 +93,16 @@ function createNote() {
             .then(result => {
                 try {
                     document.getElementById("empty").remove();
-                } catch {
-
-                }
+                } catch (err) {}
                 desktop.appendChild(note);
                 updateIdNotes();
             });
         clearContextMenu();
     }
+}
+
+function setEditEvent() {
+    let notes = document.getElementsByClassName("note");
 }
 
 function saveData() {
@@ -110,13 +115,12 @@ function saveData() {
         let note_id = notes[i].id ? notes[i].id : "X";
 
         let el = {
-            note_id: note_id,
             posX: notes[i].style.left,
             posY: notes[i].style.top,
             title: notes[i].getElementsByClassName("note_header")[0].innerHTML,
             content: notes[i].getElementsByTagName("p")[0].innerHTML,
-            board_id: board_id
-        }
+            note_id: note_id
+        };
         upload.push(el);
     }
 
@@ -125,12 +129,18 @@ function saveData() {
             headers: {
                 "Content-Type": "application/json"
             },
+            credentials: "include",
             body: JSON.stringify({
                 notes: upload
             })
         })
         .then(response => response.json())
-        .then(response => console.log(response));
+        .then(response => {
+            if (response.status == 200) {
+                display("Your notes were updated sucessfully.", 2);
+                console.log("uwu");
+            }
+        });
 }
 
 function updateIdNotes() {
@@ -143,6 +153,7 @@ function updateIdNotes() {
                 for (let j = 0; j < resp_notes.length; j++) {
                     if (notes[i].style.left == resp_notes[j].posX && notes[i].style.top == resp_notes[j].posY && notes[i].id == 'X') {
                         notes[i].id = resp_notes[j].note_id;
+                        notes[i].getElementsByTagName("a")[0].href = `javascript:editNote(${notes[i].id})`;
                     }
                 }
             }
@@ -151,7 +162,7 @@ function updateIdNotes() {
 
 function calculatePosX(posX) {
     let width = document.body.getBoundingClientRect().width;
-    if(posX + 200 >= width) {
+    if (posX + 200 >= width) {
         return width - 200;
     } else {
         return posX;
@@ -159,9 +170,9 @@ function calculatePosX(posX) {
 }
 
 function calculateNotePosX(posX) {
-    posX = parseInt(posX.substring(0,posX.length-2));
+    posX = parseInt(posX.substring(0, posX.length - 2));
     let width = document.body.getBoundingClientRect().width;
-    if(posX + 300 >= width) {
+    if (posX + 300 >= width) {
         return width - 300;
     } else {
         return posX;
@@ -183,4 +194,39 @@ function toggleDialogManager(opc) {
             dialog.style.display = "none";
             break;
     }
+}
+
+function display(message, code) {
+    let error_msg = document.getElementById("display_msg");
+    let error_log = document.getElementById("display_log");
+    error_msg.innerHTML = message;
+    error_log.style.display = "block";
+    if (code == 1) {
+        error_msg.style.backgroundColor = "rgba(255, 0, 0, 0.63)";
+    } else if (code == 2) {
+        display_msg.style.backgroundColor = "rgba(17, 219, 84, 0.493)";
+    }
+    setTimeout(() => error_log.style.opacity = 0, 4000);
+}
+
+function editNote(id) {
+    fetch(`/api/note/${id}`).then(result => result.json()).then(result => console.log(result));
+    manageNote();
+}
+
+function loadCategoriesData() {
+    fetch("/api/categories").then(result => result.json()).then(result => categories_data = result);
+}
+
+function manageSettings() {
+    toggleDialogManager(1);
+
+}
+
+function manageGroups() {
+    toggleDialogManager(1);
+}
+
+function manageNote() {
+    toggleDialogManager(1);
 }

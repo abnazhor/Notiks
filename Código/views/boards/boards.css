@@ -103,7 +103,7 @@ body {
 
 .board:hover {
     cursor: pointer;
-    background-color: rgb(252, 143, 99);
+    background-color: #fc8f63;
 }
 
 .board h2 {
