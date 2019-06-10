@@ -18,7 +18,18 @@ function loadContextMenuEvt() {
         }
     });
 
-    setEditEvent();
+    setCancelEvent();
+    loadCategoriesData();
+}
+
+function setCancelEvent() {
+    let cancel_btns = document.getElementsByClassName("cancel_button");
+    for (let i = 0; i < cancel_btns.length; i++) {
+        cancel_btns[i].addEventListener("click", evt => {
+            evt.preventDefault();
+            toggleDialogManager(2);
+        });
+    }
 }
 
 function showContextMenu() {
@@ -101,48 +112,6 @@ function createNote() {
     }
 }
 
-function setEditEvent() {
-    let notes = document.getElementsByClassName("note");
-}
-
-function saveData() {
-    let notes = document.getElementsByClassName("note");
-    let upload = [];
-    let board_id = location.href.match(/[0-9]*$/)[0];
-
-    for (let i = 0; i < notes.length; i++) {
-
-        let note_id = notes[i].id ? notes[i].id : "X";
-
-        let el = {
-            posX: notes[i].style.left,
-            posY: notes[i].style.top,
-            title: notes[i].getElementsByClassName("note_header")[0].innerHTML,
-            content: notes[i].getElementsByTagName("p")[0].innerHTML,
-            note_id: note_id
-        };
-        upload.push(el);
-    }
-
-    fetch("/api/notes/save", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            credentials: "include",
-            body: JSON.stringify({
-                notes: upload
-            })
-        })
-        .then(response => response.json())
-        .then(response => {
-            if (response.status == 200) {
-                display("Your notes were updated sucessfully.", 2);
-                console.log("uwu");
-            }
-        });
-}
-
 function updateIdNotes() {
     fetch("/api/board")
         .then(response => response.json())
@@ -158,6 +127,13 @@ function updateIdNotes() {
                 }
             }
         });
+}
+
+function updateNote(id, title, content, category) {
+    let note = document.getElementById(id);
+
+    note.getElementsByTagName("p")[0].innerHTML = content;
+    note.getElementsByTagName("span")[0].innerHTML = title;
 }
 
 function calculatePosX(posX) {
@@ -201,6 +177,7 @@ function display(message, code) {
     let error_log = document.getElementById("display_log");
     error_msg.innerHTML = message;
     error_log.style.display = "block";
+    setTimeout(() => error_log.style.opacity = 1, 500);
     if (code == 1) {
         error_msg.style.backgroundColor = "rgba(255, 0, 0, 0.63)";
     } else if (code == 2) {
@@ -209,13 +186,77 @@ function display(message, code) {
     setTimeout(() => error_log.style.opacity = 0, 4000);
 }
 
+function verifyNoteData() {
+    let form = document.getElementById("noteManager").getElementsByTagName("form")[0];
+    let title = form.getElementsByTagName("input")[0].value;
+    let content = form.getElementsByTagName("textarea")[0].value;
+    let category = form.getElementsByTagName("select")[0].value;
+
+    saveNote(parseInt(sessionStorage.getItem("edited_note")), title, content, category);
+}
+
 function editNote(id) {
-    fetch(`/api/note/${id}`).then(result => result.json()).then(result => console.log(result));
+
+    try {
+        sessionStorage.removeItem("edited_note");
+    } catch (err) {
+        display("An error has occured", 1);
+    }
+
+    let form = document.getElementById("noteManager").getElementsByTagName("form")[0];
+    let title = form.getElementsByTagName("input")[0];
+    let content = form.getElementsByTagName("textarea")[0];
+    let category = form.getElementsByTagName("select")[0];
+
+    sessionStorage.setItem("edited_note", id);
+
+    let displayed_note = document.getElementById(id);
+    title.value = displayed_note.getElementsByTagName("span")[0].innerHTML;
+    content.value = displayed_note.getElementsByTagName("p")[0].innerHTML;
+
+    category.innerHTML = "";
+    for (let i = 0; i < categories_data.length; i++) {
+        let option = document.createElement("option");
+        option.value = categories_data[i].categ_id;
+        option.innerHTML = categories_data[i].title;
+
+        category.appendChild(option);
+    }
+
     manageNote();
 }
 
+function saveNote(id, title, content, category) {
+    fetch("/api/note/update", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                title: title,
+                content: content,
+                categ_id: category,
+                note_id: id
+            })
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.status == 200) {
+                display("Note has been sucessfully updated", 2);
+                toggleDialogManager(2);
+                updateNote(sessionStorage.getItem("edited_note"), title, content, category);
+                sessionStorage.removeItem("edited_note");
+            } else {
+                display("An error has occured", 1);
+            }
+        });
+}
+
 function loadCategoriesData() {
-    fetch("/api/categories").then(result => result.json()).then(result => categories_data = result);
+    fetch("/api/categories").then(result => result.json()).then(result => {
+        categories_data = result.categories;
+    });
 }
 
 function manageSettings() {
@@ -241,7 +282,7 @@ function manageNote() {
 
 function hideAllWindowsManagers() {
     let windowManagers = document.getElementsByClassName("manager");
-    for(let i = 0; i < windowManagers.length ; i++) {
+    for (let i = 0; i < windowManagers.length; i++) {
         windowManagers[i].style.display = "none";
     }
 }

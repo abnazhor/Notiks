@@ -48,13 +48,13 @@ CREATE TABLE categories(
     PRIMARY KEY (categ_id)
 );
 
-DROP TABLE categ_note;
-CREATE TABLE categ_note(
+DROP TABLE group_note;
+CREATE TABLE group_note(
     note_id INT NOT NULL,
-    categ_id INT NOT NULL,
-    PRIMARY KEY(note_id, categ_id),
-    CONSTRAINT fk_categ_categories FOREIGN KEY(categ_id)
-    REFERENCES categories(categ_id)
+    group_id INT NOT NULL,
+    PRIMARY KEY(note_id, group_id),
+    CONSTRAINT fk_categ_categories FOREIGN KEY(group_id)
+    REFERENCES groups(group_id)
     ON DELETE CASCADE,
     CONSTRAINT fk_categ_notes FOREIGN KEY(note_id)
     REFERENCES notes(note_id)

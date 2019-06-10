@@ -8,7 +8,7 @@ module.exports = function (app) {
                     if (result.length != 1 && err && req.session.loggedin == result[0].user_id) throw error;
                     res.status(200).send({
                         status: 200,
-                        note : result[0]
+                        note: result[0]
                     });
                 } catch (error) {
 
@@ -40,6 +40,76 @@ module.exports = function (app) {
                 res.status(200).send({
                     status: 200
                 });
+            });
+        } else {
+            res.status(403).send({
+                status: 403,
+                message: "Forbidden"
+            });
+        }
+    });
+
+    app.post("/api/note/update", (req, res) => {
+        if (req.session.loggedin && req.body.note_id != null) {
+            const SQL_VERIFY = "SELECT user_id FROM notes JOIN boards ON boards.board_id = notes.board_id WHERE note_id = ?;";
+            con.query(SQL_VERIFY, [req.body.note_id], (error, result) => {
+                try {
+                    if (error) throw err;
+                    //if (result.length != 1 || result[0].user_id != req.session.loggedin) throw error;
+                } catch (error) {
+                    res.status(400).send({
+                        status: 400,
+                        message: "Forbidden"
+                    });
+                }
+                if (!res.headersSent) {
+                    if (req.body.title != null && req.body.content != null && req.body.categ_id != null) {
+                        const SQL = "UPDATE notes SET title = ?, content = ?, categ_id = ? WHERE note_id = ?;";
+                        con.query(SQL, [
+                            req.body.title,
+                            req.body.content,
+                            req.body.categ_id,
+                            req.body.note_id
+                        ], (err, result) => {
+                            try {
+                                if (err) throw err;
+                                res.status(200).send({
+                                    status: 200,
+                                    message: "Note has been updated sucessfully."
+                                });
+                            } catch (err) {
+                                res.status(400).send({
+                                    status: 403,
+                                    message: "An error has occured"
+                                });
+                            }
+                        });
+                    } else if (req.body.posX != null && req.body.posY != null) {
+                        const SQL = "UPDATE notes SET posX = ?, posY = ? WHERE note_id = ?;";
+                        con.query(SQL, [
+                            req.body.posX,
+                            req.body.posY
+                        ], (err, result) => {
+                            try {
+                                if (err) throw err;
+                                res.status(200).send({
+                                    status: 200,
+                                    message: "Note has been updated successfully"
+                                });
+                            } catch (err) {
+                                res.status(400).send({
+                                    status: 400,
+                                    message: "An error has occured"
+                                });
+                            }
+                        });
+                    } else {
+                        res.status(400).send({
+                            status: 400,
+                            message: "Wrong parameters"
+                        });
+                    }
+                }
             });
         } else {
             res.status(403).send({

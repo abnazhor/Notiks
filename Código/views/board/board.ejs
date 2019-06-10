@@ -43,7 +43,7 @@
         </div>
         <div id="dialogManager">
             <div id="noteManager" class="manager">
-                <form action="" method="">
+                <form action="javascript:verifyNoteData()" method="post">
                     <h3>Title</h3>
                     <input type="text" name="title">
                     <h3>Content</h3>
@@ -52,11 +52,11 @@
                     <h3>Category</h3>
                     <select name="category">
                     </select><br>
-                    <select name="groups_available"></select>
+                    <!--<select name="groups_available"></select>
                     <button>Add to note</button>
                     <select name="groups_added"></select>
-                    <button>Remove from note</button>
-                    <a href="javascript:toggleDialogManager(2)">Cancel</a>
+                    <button>Remove from note</button><br>-->
+                    <button class="cancel_button">Cancel</button>
                     <input type="submit" name="submit" value="Save changes">
                 </form>
             </div>
@@ -67,16 +67,15 @@
                     <h3>Background image</h3>
                     <select name="category">
                     </select>
-                    <a href="javascript:toggleDialogManager(2)">Cancel</a>
+                    <button class="cancel_button">Cancel</button>
                 </form>
             </div>
             <div id="groupManager" class="manager">
                 <form action="" method="">
-                    <a href="javascript:toggleDialogManager(2)">Cancel</a>
+                    <button class="cancel_button">Cancel</button>
                 </form>
             </div>
         </div>
-
         <div id="display_log">
             <p id="display_msg">
             </p>
