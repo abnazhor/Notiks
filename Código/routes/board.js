@@ -24,7 +24,7 @@ module.exports = function (app) {
         if (req.session.loggedin != null) {
 
             const SQL = `SELECT title, board_id FROM boards WHERE board_id = ${req.params.id} and user_id = '${req.session.loggedin}';`;
-            const SQL2 = `SELECT note_id, title, posX, posY, content FROM notes WHERE board_id = ${req.params.id};`;
+            const SQL2 = `SELECT note_id, title, posX, posY, content, categ_id FROM notes WHERE board_id = ${req.params.id};`;
 
             con.query(SQL, (err, result) => {
                 if (result.length != 0) {

@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql");
 const ejs = require("ejs");
 const session = require("express-session");
+const styleLoader = require("./extras/categoryStylesheetGen");
+
 bcrypt = require("bcrypt");
 
 const app = express();
@@ -35,7 +37,7 @@ app.use(session({
 //Conexión con la base de datos de MySQL.
 con = mysql.createConnection(
     config.getMysqlConfig()
-)
+);
 
 con.connect((error) => {
     try {
@@ -54,6 +56,8 @@ con.connect((error) => {
         }
     }
 });
+
+styleLoader.createStyleSheet();
 
 //Importa todas las rutas de los archivos.
 require("./routes/index.js")(app);

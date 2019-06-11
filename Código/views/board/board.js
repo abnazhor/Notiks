@@ -82,6 +82,7 @@ function createNote() {
         note.style.left = calculateNotePosX(location.style.left) + "px";
         note.style.top = location.style.top;
         note.classList.add("note");
+        note.classList.add("categ_default");
         note.id = "X";
 
         fetch("/api/note", {
@@ -134,6 +135,13 @@ function updateNote(id, title, content, category) {
 
     note.getElementsByTagName("p")[0].innerHTML = content;
     note.getElementsByTagName("span")[0].innerHTML = title;
+
+    note.classList.remove("categ_default");
+    for (let i = 0; i < categories_data.length; i++) {
+        note.classList.remove("categ_" + i);
+    }
+
+    note.classList.add(category);
 }
 
 function calculatePosX(posX) {
@@ -183,7 +191,8 @@ function display(message, code) {
     } else if (code == 2) {
         display_msg.style.backgroundColor = "rgba(17, 219, 84, 0.493)";
     }
-    setTimeout(() => error_log.style.opacity = 0, 4000);
+    setTimeout(() => error_log.style.opacity = 0, 3000);
+    setTimeout(() => error_log.style.display = "none", 4000);
 }
 
 function verifyNoteData() {
@@ -221,6 +230,13 @@ function editNote(id) {
         option.innerHTML = categories_data[i].title;
 
         category.appendChild(option);
+    }
+
+    let classList = document.getElementById(id).classList;
+    for (let i = 0; i < classList.length; i++) {
+        if (/categ\_\.*/.test(classList[i])) {
+            category.value = classList[i];
+        }
     }
 
     manageNote();

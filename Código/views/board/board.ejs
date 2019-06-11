@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/views/board/board.css">
+    <link rel="stylesheet" href="/views/board/categories.css">
     <link href="https://fonts.googleapis.com/css?family=Assistant:300" rel="stylesheet">
     <script src="/views/board/board.js"></script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -29,7 +30,8 @@
         <div id="desktop">
             <% if(notes.length != 0) { %>
             <% notes.forEach((note) => { %>
-            <div class="note" id="<%= note.note_id %>" style="left: <%= note.posX %>; top:  <%= note.posY %>">
+            <div class="note <% if (note.categ_id == null) { %> categ_default <% } else { %> <%= note.categ_id %> <% } %>"
+                id="<%= note.note_id %>" style="left: <%= note.posX %>; top:  <%= note.posY %>">
                 <div class="note_header">
                     <a href="javascript:editNote(<%= note.note_id %>)">Edit</a>
                     <span><%= note.title %></span>
@@ -56,8 +58,10 @@
                     <button>Add to note</button>
                     <select name="groups_added"></select>
                     <button>Remove from note</button><br>-->
-                    <button class="cancel_button">Cancel</button>
-                    <input type="submit" name="submit" value="Save changes">
+                    <div>
+                        <button class="cancel_button">Cancel</button>
+                        <input type="submit" name="submit" value="Save changes">
+                    </div>
                 </form>
             </div>
             <div id="boardManager" class="manager">

@@ -33,7 +33,7 @@ CREATE TABLE notes(
     content VARCHAR(300) NOT NULL,
     posX VARCHAR(7) NOT NULL,
     posY VARCHAR(7) NOT NULL,
-    categ_id INT,
+    categ_id VARCHAR(25),
     PRIMARY KEY (note_id, board_id),
     CONSTRAINT fk_notes_boards FOREIGN KEY(board_id)
     REFERENCES boards(board_id)
@@ -42,7 +42,7 @@ CREATE TABLE notes(
 
 DROP TABLE categories;
 CREATE TABLE categories(
-    categ_id INT NOT NULL AUTO_INCREMENT,
+    categ_id VARCHAR(25),
     style VARCHAR(350) NOT NULL,
     title VARCHAR(40) NOT NULL,
     PRIMARY KEY (categ_id)
@@ -69,10 +69,11 @@ CREATE TABLE groups(
     PRIMARY KEY (group_id)
 );
 
-INSERT INTO categories(style, title) VALUES("background-color: #ff65a5;", "violet");
-INSERT INTO categories(style, title) VALUES("background-color: #ffce65;", "orange");
-INSERT INTO categories(style, title) VALUES("background-color: #65ff72;", "green");
-INSERT INTO categories(style, title) VALUES("background-color: #6565ff;", "blue");
-INSERT INTO categories(style, title) VALUES("background-color: #ff6565;", "red");
-INSERT INTO categories(style, title) VALUES("background-color: #65faff;", "cyan");
-INSERT INTO categories(style, title) VALUES("background-color: #c165ff;", "purple");
+INSERT INTO categories VALUES("categ_1","background-color: #ff65a5;", "Violet");
+INSERT INTO categories VALUES("categ_2","background-color: #ffce65;", "Orange");
+INSERT INTO categories VALUES("categ_3","background-color: #65ff72;", "Green");
+INSERT INTO categories VALUES("categ_4","background-color: #6565ff;", "Blue");
+INSERT INTO categories VALUES("categ_5","background-color: #ff6565;", "Red");
+INSERT INTO categories VALUES("categ_6","background-color: #65faff;", "Cyan");
+INSERT INTO categories VALUES("categ_7","background-color: #c165ff;", "Purple");
+INSERT INTO categories VALUES("categ_default", "background-color: #ffff;", "Default");

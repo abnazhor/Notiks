@@ -1,5 +1,5 @@
 body {
-    background-image: url("https://images.unsplash.com/photo-1552084117-56a987666449?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80");
+    background-image: url("https://images.unsplash.com/photo-1557626204-59dd03fd2d31?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");
     background-size: cover;
     background-attachment: fixed;
 }
@@ -18,7 +18,7 @@ body {
     background-color: #3b3b4e;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
     height: 1vh;
-    z-index: 3;
+    z-index: 4;
 }
 
 #options {
@@ -29,7 +29,7 @@ body {
     margin: auto;
     border-radius: 0px 0px 2px 2px;
     min-height: 40px;
-    z-index: 2;
+    z-index: 3;
     display: flex;
     justify-content: center;
 }
@@ -68,7 +68,6 @@ body {
     max-height: 400px;
     min-width: 250px;
     width: 13%;
-    background-color: rgba(255, 255, 255, 0.952);
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
     z-index: 1;
     border-radius: 3px 3px 0px 0px;
@@ -88,7 +87,7 @@ body {
 
 .note_header span {
     position: relative;
-    left: 8%;
+    left: 10%;
     display: block;
     width: 80%;
 }
@@ -208,24 +207,33 @@ body {
     width: 40%;
     margin: initial;
     font-size: 13px;
-    float: left;
+}
+
+.manager input[type="submit"]:hover {
+    cursor: pointer;
 }
 
 .manager div {
-    width: 100%;
+    width: 75%;
     margin: auto;
+    display: flex;
+    justify-content: center;
 }
 
-.manager button[id="cancel_button"] {
-    background-color: red;
-    border: 1px solid red;
+.cancel_button {
+    background-color: #c53030;
+    border: 1px solid #c53030;
     text-decoration: none;
-    display: block;
     width: 30%;
     text-align: center;
-    padding: 1% 0.5% 1% 0.5%;
+    padding: 1.4% 0.8% 1.4% 0.8%;
     font-size: 13px;
     color: #ffff;
+    margin-right: 1%;
+}
+
+.cancel_button:hover {
+    cursor: pointer;
 }
 
 #close_X {
