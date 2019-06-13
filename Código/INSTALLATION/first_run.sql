@@ -51,7 +51,6 @@ CREATE TABLE categories(
 
 DROP TABLE groups;
 CREATE TABLE groups(
-    table_id INT,
     group_id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(100),
     PRIMARY KEY (group_id)
@@ -78,6 +77,11 @@ INSERT INTO categories VALUES("categ_5","background-color: #ff6565;", "Red");
 INSERT INTO categories VALUES("categ_6","background-color: #65faff;", "Cyan");
 INSERT INTO categories VALUES("categ_7","background-color: #c165ff;", "Purple");
 INSERT INTO categories VALUES("categ_default", "background-color: #ffff;", "Default");
+
+INSERT INTO groups(title) VALUES("Group 1");
+INSERT INTO groups(title) VALUES("Group 2");
+INSERT INTO groups(title) VALUES("Group 3");
+INSERT INTO groups(title) VALUES("Group 4");
 
 DROP TABLE group_note;
 DROP TABLE groups;

@@ -1,25 +1,78 @@
 categories_data = [];
+groups = [];
+isMouseDown = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     let notes = document.getElementsByClassName("note");
     loadContextMenuEvt();
+    loadOtherEvts();
 });
 
 function loadContextMenuEvt() {
     document.body.addEventListener("contextmenu", evt => {
         evt.preventDefault();
     });
+
     document.getElementById("desktop").addEventListener("contextmenu", evt => {
         showContextMenu();
     });
+
     document.getElementById("desktop").addEventListener("click", evt => {
         if (evt.button == 0) {
             clearContextMenu();
         }
     });
+}
+
+function loadOtherEvts() {
+    let notes = document.getElementsByClassName("note");
+    for (let i = 0; i < notes.length; i++) {
+        addDragEvt(notes[i].id);
+        notes[i].addEventListener("mouseup", evt => saveNotePos(notes[i].id, notes[i].style.left, notes[i].style.top));
+    }
+
+    document.addEventListener("mousedown", evt => isMouseDown = true);
+    document.addEventListener("mouseup", evt => isMouseDown = false);
 
     setCancelEvent();
+    setDeleteEvent();
+    setDeleteBoardEvt();
     loadCategoriesData();
+}
+
+function addDragEvt(id) {
+    let elem = document.getElementById(id).getElementsByClassName("note_header")[0];
+    elem.addEventListener("mousedown", evt => {
+        let mouse = window.event;
+        let elem = evt.currentTarget.getBoundingClientRect();
+        sessionStorage.setItem("moving_item", evt.currentTarget.parentElement.id);
+
+        let posX = mouse.clientX - elem.left;
+        let posY = mouse.clientY - elem.top;
+
+        evt.currentTarget.onmousemove = evt => movement(evt.currentTarget, posX, posY);
+    });
+}
+
+function movement(element, posX, posY) {
+    let mouse = window.event;
+
+    if (isMouseDown) {
+        element.parentElement.style.top = mouse.clientY - posY + "px";
+        element.parentElement.style.left = mouse.clientX - posX + "px";
+        setTimeout(() => {
+            element.parentElement.style.top = mouse.clientY - posY + "px";
+            element.parentElement.style.left = mouse.clientX - posX + "px";
+        }, 15);
+    }
+}
+
+function setDeleteBoardEvt() {
+    let delete_button = document.getElementById("delete_board");
+    delete_button.addEventListener("click", evt => {
+        evt.preventDefault();
+        deleteBoard();
+    });
 }
 
 function setCancelEvent() {
@@ -31,6 +84,18 @@ function setCancelEvent() {
         });
     }
 }
+
+function setDeleteEvent() {
+    let delete_btns = document.getElementsByClassName("delete_button");
+    for (let i = 0; i < delete_btns.length; i++) {
+        delete_btns[i].addEventListener("click", evt => {
+            evt.preventDefault();
+            deleteNote(sessionStorage.getItem("edited_note"));
+            toggleDialogManager(2);
+        });
+    }
+}
+
 
 function showContextMenu() {
     clearContextMenu();
@@ -53,95 +118,6 @@ function clearContextMenu() {
     } catch (error) {
 
     }
-}
-
-function createNote() {
-    if (document.getElementById("contextMenu") != null) {
-        // Declaración de variables a usar.
-        let location = document.getElementById("contextMenu");
-        let note = document.createElement("div");
-        let header = document.createElement("div");
-        let content = document.createElement("p");
-        let board_id = window.location.href.match(/[0-9]*$/)[0];
-        let link = document.createElement("a");
-        let title = document.createElement("span");
-
-        title.innerHTML = "Note title";
-        link.innerHTML = "Edit";
-
-        header.classList.add("note_header");
-        header.appendChild(link);
-        header.appendChild(title);
-
-        content.innerHTML = "Insert your content here.";
-
-        note.appendChild(header);
-        note.appendChild(content);
-
-        let desktop = document.getElementById("desktop");
-        note.style.left = calculateNotePosX(location.style.left) + "px";
-        note.style.top = location.style.top;
-        note.classList.add("note");
-        note.classList.add("categ_default");
-        note.id = "X";
-
-        fetch("/api/note", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include",
-                body: JSON.stringify({
-                    note: {
-                        board_id: board_id,
-                        title: title.innerHTML,
-                        content: content.innerHTML,
-                        posX: note.style.left,
-                        posY: note.style.top
-                    }
-                })
-            })
-            .then(result => result.json())
-            .then(result => {
-                try {
-                    document.getElementById("empty").remove();
-                } catch (err) {}
-                desktop.appendChild(note);
-                updateIdNotes();
-            });
-        clearContextMenu();
-    }
-}
-
-function updateIdNotes() {
-    fetch("/api/board")
-        .then(response => response.json())
-        .then(response => {
-            let notes = document.getElementsByClassName("note");
-            let resp_notes = response.notes;
-            for (let i = 0; i < notes.length; i++) {
-                for (let j = 0; j < resp_notes.length; j++) {
-                    if (notes[i].style.left == resp_notes[j].posX && notes[i].style.top == resp_notes[j].posY && notes[i].id == 'X') {
-                        notes[i].id = resp_notes[j].note_id;
-                        notes[i].getElementsByTagName("a")[0].href = `javascript:editNote(${notes[i].id})`;
-                    }
-                }
-            }
-        });
-}
-
-function updateNote(id, title, content, category) {
-    let note = document.getElementById(id);
-
-    note.getElementsByTagName("p")[0].innerHTML = content;
-    note.getElementsByTagName("span")[0].innerHTML = title;
-
-    note.classList.remove("categ_default");
-    for (let i = 0; i < categories_data.length; i++) {
-        note.classList.remove("categ_" + i);
-    }
-
-    note.classList.add(category);
 }
 
 function calculatePosX(posX) {
@@ -204,74 +180,48 @@ function verifyNoteData() {
     saveNote(parseInt(sessionStorage.getItem("edited_note")), title, content, category);
 }
 
-function editNote(id) {
-
-    try {
-        sessionStorage.removeItem("edited_note");
-    } catch (err) {
-        display("An error has occured", 1);
-    }
-
-    let form = document.getElementById("noteManager").getElementsByTagName("form")[0];
-    let title = form.getElementsByTagName("input")[0];
-    let content = form.getElementsByTagName("textarea")[0];
-    let category = form.getElementsByTagName("select")[0];
-
-    sessionStorage.setItem("edited_note", id);
-
-    let displayed_note = document.getElementById(id);
-    title.value = displayed_note.getElementsByTagName("span")[0].innerHTML;
-    content.value = displayed_note.getElementsByTagName("p")[0].innerHTML;
-
-    category.innerHTML = "";
-    for (let i = 0; i < categories_data.length; i++) {
-        let option = document.createElement("option");
-        option.value = categories_data[i].categ_id;
-        option.innerHTML = categories_data[i].title;
-
-        category.appendChild(option);
-    }
-
-    let classList = document.getElementById(id).classList;
-    for (let i = 0; i < classList.length; i++) {
-        if (/categ\_\.*/.test(classList[i])) {
-            category.value = classList[i];
-        }
-    }
-
-    manageNote();
+function verifyBoardData() {
+    let form = document.getElementById("boardManager").getElementsByTagName("form")[0];
+    let title = form.getElementsByTagName("input")[0].value;
 }
 
-function saveNote(id, title, content, category) {
-    fetch("/api/note/update", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            credentials: "include",
-            body: JSON.stringify({
-                title: title,
-                content: content,
-                categ_id: category,
-                note_id: id
+function deleteBoard() {
+    let board_id = window.location.href.split("/");
+    board_id = board_id[board_id.length - 1];
+
+    let verif = confirm("Are you sure you want to delete this board?");
+    if (verif) {
+        fetch("/api/board", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    board_id : board_id
+                })
             })
-        })
-        .then(response => response.json())
-        .then(response => {
-            if (response.status == 200) {
-                display("Note has been sucessfully updated", 2);
-                toggleDialogManager(2);
-                updateNote(sessionStorage.getItem("edited_note"), title, content, category);
-                sessionStorage.removeItem("edited_note");
-            } else {
-                display("An error has occured", 1);
-            }
-        });
+            .then(response => response.json())
+            .then(response => {
+                if (response.status === 200) {
+                    display("The board has been successfully deleted. Redirecting...", 2);
+                    setTimeout(() => window.location.replace("/boards"), 2000);
+                } else {
+                    display("Something went wrong. Please try again later.", 1);
+                }
+            });
+    }
 }
 
 function loadCategoriesData() {
     fetch("/api/categories").then(result => result.json()).then(result => {
         categories_data = result.categories;
+    });
+}
+
+function loadGroups() {
+    fetch("/api/groups").then(result => result.json()).then(result => {
+        groups = result;
     });
 }
 
@@ -282,18 +232,18 @@ function manageSettings() {
     settingsWindow.style.display = "flex";
 }
 
-function manageGroups() {
+/* function manageGroups() {
     toggleDialogManager(1);
     hideAllWindowsManagers();
-    let settingsWindow = document.getElementById("groupManager");
-    settingsWindow.style.display = "flex";
-}
+    let groupWindow = document.getElementById("groupManager");
+    groupWindow.style.display = "flex";
+} */
 
 function manageNote() {
     toggleDialogManager(1);
     hideAllWindowsManagers();
-    let settingsWindow = document.getElementById("noteManager");
-    settingsWindow.style.display = "flex";
+    let noteWindow = document.getElementById("noteManager");
+    noteWindow.style.display = "flex";
 }
 
 function hideAllWindowsManagers() {

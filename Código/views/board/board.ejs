@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/views/board/board.css">
     <link rel="stylesheet" href="/views/board/categories.css">
     <link href="https://fonts.googleapis.com/css?family=Assistant:300" rel="stylesheet">
+    <script src="/views/board/board_operations.js"></script>
     <script src="/views/board/board.js"></script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title> <%= board_title %> - Notiks</title>
@@ -20,9 +21,9 @@
             <div>
                 <a href="javascript:manageSettings()">Settings</a>
             </div>
-            <div>
+            <!--<div>
                 <a href="javascript:manageGroups()">Groups</a>
-            </div>
+            </div>-->
             <div>
                 <a href="/boards">Boards</a>
             </div>
@@ -49,7 +50,7 @@
                     <h3>Title</h3>
                     <input type="text" name="title">
                     <h3>Content</h3>
-                    <textarea rows="3" cols="100" maxlength="300"></textarea>
+                    <textarea rows="3" cols="100" maxlength="250"></textarea>
                     <h3></h3>
                     <h3>Category</h3>
                     <select name="category">
@@ -61,17 +62,22 @@
                     <div>
                         <button class="cancel_button">Cancel</button>
                         <input type="submit" name="submit" value="Save changes">
+                        <button class="delete_button">Delete note</button>
                     </div>
                 </form>
             </div>
             <div id="boardManager" class="manager">
-                <form action="" method="">
+                <form action="javascript:verifyBoardData()" method="post">
                     <h3>Title</h3>
                     <input type="text" name="title">
-                    <h3>Background image</h3>
+                    <!--<h3>Background image</h3>
                     <select name="category">
-                    </select>
-                    <button class="cancel_button">Cancel</button>
+                    </select>-->
+                    <div>
+                        <button class="cancel_button">Cancel</button>
+                        <input type="submit" name="submit" value="Save changes">
+                        <button id="delete_board">Delete board</button>
+                    </div>
                 </form>
             </div>
             <div id="groupManager" class="manager">

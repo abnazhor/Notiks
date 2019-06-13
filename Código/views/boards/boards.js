@@ -65,15 +65,24 @@ function loadBoards() {
 
             current_page = 0;
 
-            if (current_page === 0) {
-                document.getElementById("previous").style.opacity = "0";
-                document.getElementById("previous").disabled = "true";
-                document.getElementById("previous").style.cursor = "initial";
-            }
+            let previousEl = document.getElementById("previous");
+            let nextEl = document.getElementById("next");
 
-            document.getElementById("next").style.opacity = "1";
-            document.getElementById("next").disabled = "";
-            document.getElementById("next").style.cursor = "pointer";
+            if (current_page === 0) {
+                if (response.length <= 10) {
+                    nextEl.style.opacity = "0";
+                    nextEl.disabled = "true";
+                    nextEl.style.cursor = "initial";
+                } else {
+                    nextEl.style.opacity = "1";
+                    nextEl.disabled = "";
+                    nextEl.style.cursor = "pointer";
+                }
+
+                previousEl.style.opacity = "0";
+                previousEl.disabled = "true";
+                previousEl.style.cursor = "initial";
+            }
 
             sessionStorage.setItem("boards", JSON.stringify(response));
             loadBoardFunctionality();

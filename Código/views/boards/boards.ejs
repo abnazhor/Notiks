@@ -25,9 +25,9 @@
             <div>
                 <a href="javascript:displayBoard(1)">New board</a>
             </div>
-            <div>
+            <!--<div>
                 <a href="/settings">Settings</a>
-            </div>
+            </div>-->
             <div>
                 <a href="/logout">Log out</a>
             </div>
@@ -43,13 +43,9 @@
             <% } %>
             <% }); %>
         </div>
-        <% if (boards.length < 10) { %>
-        <div id="navigator" style="display:none">
-        <% } else { %>
         <div id="navigator">
-        <% } %>
             <button id="previous" style="opacity: 0;" disabled> Previous </button>
-            <button id="next"> Next </button>
+            <button id="next" style="opacity: 0;"> Next </button>
         </div>
         <div id="board_dialog">
             <form action="javascript:createBoard()" method="post" id="board_create">
@@ -62,3 +58,11 @@
 </body>
 
 </html>
+
+<!--
+     <% if (boards.length < 10) { %>
+        <div id="navigator" style="display:none">
+        <% } else { %>
+        <div id="navigator">
+        <% } %>
+-->

@@ -22,6 +22,37 @@ module.exports = function (app) {
         }
     });
 
+    app.delete("/api/note", (req, res) => {
+        const DELETE_QUERY = "DELETE FROM notes WHERE note_id = ?";
+        const VERIFY_QUERY = "SELECT user_id FROM notes JOIN boards ON boards.board_id = notes.board_id WHERE note_id = ?";
+
+        if (req.session.loggedin) {
+            con.query(VERIFY_QUERY, [req.body.note_id], (err, result) => {
+                if (req.session.loggedin == result[0].user_id) {
+                    con.query(DELETE_QUERY, [req.body.note_id], (error, result2) => {
+                        try {
+                            if (error) throw error;
+                            res.status(200).send({
+                                status: 200,
+                                message: "Note updated"
+                            });
+                        } catch (error) {
+                            res.status(400).send({
+                                status: 400,
+                                message: "Note couldn't be deleted"
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            res.status(403).send({
+                status: 403,
+                message: "Forbidden"
+            });
+        }
+    });
+
     // Crea una nota. En este caso devuelve los datos finales de la nota en formato JSON para ser procesada por el cliente.
     // Además debe de obtener los datos pasados por POST para poder crear la nota en la base de datos. Realiza validación.
     app.post("/api/note", (req, res) => {
@@ -88,7 +119,8 @@ module.exports = function (app) {
                         const SQL = "UPDATE notes SET posX = ?, posY = ? WHERE note_id = ?;";
                         con.query(SQL, [
                             req.body.posX,
-                            req.body.posY
+                            req.body.posY,
+                            req.body.note_id
                         ], (err, result) => {
                             try {
                                 if (err) throw err;

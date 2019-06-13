@@ -82,7 +82,7 @@ body {
 }
 
 #boards {
-    width: 80%;
+    width: 70%;
     margin: auto;
     margin-top: 1.5vh;
     position: relative;
@@ -93,13 +93,20 @@ body {
     background-color: #fff;
     color: rgb(41, 41, 41);
     border-radius: 2px;
-    margin: 0.25%;
     padding: 0.15px 0% 0.15px 0%;
-    margin-bottom: 0.5%;
-    float: left;
+    margin-bottom: 0.3%;
+    margin-top: 0.3%;
     width: 49.5%;
     transition: background-color 0.5s;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+}
+
+.board:nth-child(even) {
+    float: right;
+}
+
+.board:nth-child(odd) {
+    float: left;
 }
 
 .board:hover {
@@ -117,11 +124,12 @@ body {
 }
 
 #navigator {
-    width: 100%;
+    width: 22%;
     margin: auto;
-    margin-top: 1%;
+    height: 50px;
+    position: relative;
     display: flex;
-    justify-content: center;
+    clear: both;
 }
 
 #navigator button {
@@ -133,8 +141,16 @@ body {
     border: 1px solid #3b3b4e;
     color: #fff;
     transition: background-color 0.5s, border 0.5s;
-    margin: 1%;
+    margin: 5px;
     border-radius: 2px;
+}
+
+#navigator button:nth-child(odd) {
+    float: left;
+}
+
+#navigator button:nth-child(even) {
+    float: right;
 }
 
 #navigator button:hover {
@@ -222,5 +238,9 @@ body {
 
     #options {
         width: 100%;
+    }
+    
+    #navigator {
+        width: 65%;
     }
 }
