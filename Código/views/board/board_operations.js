@@ -138,6 +138,21 @@ function saveNote(id, title, content, category) {
         });
 }
 
+function loadGroupsIntoWindow(id) {
+    let available = document.getElementsByName("available_groups")[0];
+    let added = document.getElementsByName("added_groups")[0];
+
+    available.innerHTML = "";
+    added.innerHTML = "";
+
+    for (let i = 0; i < groups.length; i++) {
+        let option = document.createElement("option");
+        option.value = groups[i].group_id;
+        option.innerHTML = groups[i].title;
+        available.appendChild(option);
+    }
+}
+
 function editNote(id) {
 
     try {
@@ -172,6 +187,8 @@ function editNote(id) {
             category.value = classList[i];
         }
     }
+
+    loadGroupsIntoWindow(id);
 
     manageNote();
 }

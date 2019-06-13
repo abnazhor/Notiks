@@ -1,5 +1,5 @@
 body {
-    background-image: url("/data/board_bg/beach.png");
+    background-image: url("/data/board_bg/bg_beach.png");
     background-size: cover;
     background-attachment: fixed;
     font-family: Arial, Helvetica, sans-serif;
@@ -156,13 +156,16 @@ body {
     position: fixed;
 }
 
-#noteManager, #categoryManager, #groupManager {
+#noteManager,
+#categoryManager,
+#groupManager {
     display: none;
 }
 
 .manager {
     background-color: #fff;
-    height: 60%;
+    height: 70%;
+    min-height: 650px;
     width: 50%;
     margin: auto;
     border-radius: 2px;
@@ -185,12 +188,13 @@ body {
 .manager form {
     display: block;
     width: 70%;
-    height: 90%;
+    height: 95%;
     margin: auto;
-    max-height: 500px;
+    max-height: 600px;
 }
 
-.manager input, .manager textarea {
+.manager input,
+.manager textarea {
     width: 80%;
     display: block;
     margin: auto;
@@ -219,7 +223,9 @@ body {
     font-size: 13px;
 }
 
-.manager input[type="submit"]:hover {
+.manager input[type="submit"]:hover,
+#add_group:hover,
+#remove_group:hover {
     cursor: pointer;
 }
 
@@ -230,7 +236,9 @@ body {
     justify-content: center;
 }
 
-.cancel_button, .delete_button, #delete_board {
+.cancel_button,
+.delete_button,
+#delete_board {
     background-color: #c53030;
     border: 1px solid #c53030;
     text-decoration: none;
@@ -242,12 +250,40 @@ body {
     margin-right: 1%;
 }
 
-.cancel_button:hover, .delete_button:hover, #delete_board:hover {
+.cancel_button:hover,
+.delete_button:hover,
+#delete_board:hover {
     cursor: pointer;
 }
 
-.delete_button, #delete_board {
+.delete_button,
+#delete_board {
     margin-left: 1%;
+}
+
+select[name="available_groups"],
+select[name="added_groups"] {
+    width: 82%;
+    margin: auto;
+    display: block;
+    background-color: #3b3b4e;
+    padding: 1% 0.5% 1% 0.5%;
+    border: 3px solid #3b3b4e;
+    color: #ffff;
+}
+
+#add_group,
+#remove_group {
+    background-color: #3b3b4e;
+    padding: 1% 0.5% 1% 0.5%;
+    border: 3px solid #3b3b4e;
+    width: 82%;
+    margin: initial;
+    font-size: 13px;
+    color: white;
+    display: block;
+    margin: auto;
+    margin-top: 2px;
 }
 
 #close_X {
@@ -310,6 +346,10 @@ body {
     #options>div {
         height: 100%;
         width: 25%;
+    }
+
+    .manager {
+        width: 95%;
     }
 }
 

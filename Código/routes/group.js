@@ -1,37 +1,103 @@
-module.exports = function(app) {
-    
-    // Rutas para la carga de vistas.
-
-    // Sirve la página con los grupos disponibles.
-    app.get("/groups", (req, res) => {
-
-    });
-
-    // Sirve la página con los datos de la categoría. En esta página se debe de poder editar el grupo.
-    app.get("/group/:id", (req, res) => {
-
-    });
-
-    // Sirve la página por la que se podrá crear un nuevo grupo. Utiliza AJAX para completar la funcionalidad. 
-    app.get("/group/new", (req, res) => {
-
-    });
-
-    
+module.exports = function (app) {
     //Rutas para el uso de la API.
 
-    // Elimina un grupo del sistema. Devuelve JSON con booleano indicando el éxito de la operación.
-    app.delete("/api/group/:id", (req, res) => {
-
-    });
-
     // Modifica un grupo del sistema. Devuelve JSON con booleano indicando el éxito de la operación.
-    app.post("/api/group/:id", (req, res) => {
-
+    app.get("/api/groups", (req, res) => {
+        const GET_GROUPS = "SELECT * FROM groups";
+        con.query(GET_GROUPS, (err, result) => {
+            try {
+                if (err) throw err;
+                res.status(200).send({
+                    status: 200,
+                    groups: result
+                })
+            } catch (err) {
+                res.status(400).send({
+                    status: 400,
+                    message: "An error has occured"
+                });
+            }
+        });
     });
 
-    // Crea un grupo en el sistema. Devuelve JSON con booleano indicando el éxito de la operación.
-    app.post("/api/group/:id", (req, res) => {
-
+    app.get("/api/groups/:id", (req, res) => {
+        const GET_NOTE_GROUPS = "SELECT * FROM group_note WHERE note_id = ?";
+        if (req.session.loggedin) {
+            con.query(GET_NOTE_GROUPS, [req.params.id], (err, result) => {
+                try {
+                    if (err) throw err;
+                    res.status(200).send({
+                        status: 200,
+                        groups: result
+                    });
+                } catch (err) {
+                    res.status(400).send({
+                        status: 400,
+                        message: "An error has occured"
+                    });
+                }
+            });
+        } else {
+            res.status(400).send({
+                status: 400,
+                message: "Forbidden"
+            });
+        }
     });
-}
+
+    app.post("/api/group/assign", (req, res) => {
+        if (req.session.loggedin) {
+            const INSERT_RELATIONSHIP = "INSERT INTO group_note VALUES(?, ?)";
+            con.query(INSERT_RELATIONSHIP, [
+                req.body.note_id,
+                req.body.group_id
+            ], (err, result) => {
+                try {
+                    if (err) throw err;
+                    res.status(200).send({
+                        status: 200,
+                        message: "Successfully added"
+                    });
+                } catch (err) {
+                    res.status(400).send({
+                        status: 400,
+                        message: "Couldn't add relationship."
+                    });
+                }
+            });
+        } else {
+            res.status(403).send({
+                status: 403,
+                message: "Forbidden"
+            });
+        }
+    });
+
+    app.post("/api/group/deassign", (req, res) => {
+        const DELETE_RELATIONSHIP = "DELETE FROM group_note WHERE note_id = ? AND group_id = ?";
+        if (req.session.loggedin) {
+            con.query(DELETE_RELATIONSHIP, [
+                req.body.note_id,
+                req.body.group_id
+            ], (err, result) => {
+                try {
+                    if (err) throw err;
+                    res.status(200).send({
+                        status: 200,
+                        message: "Successfully deleted"
+                    });
+                } catch (err) {
+                    res.status(400).send({
+                        status: 400,
+                        message: "Forbidden"
+                    });
+                }
+            });
+        } else {
+            res.status(403).send({
+                status: 403,
+                message: "Forbidden"
+            });
+        }
+    });
+};

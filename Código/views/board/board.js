@@ -37,7 +37,9 @@ function loadOtherEvts() {
     setCancelEvent();
     setDeleteEvent();
     setDeleteBoardEvt();
+    setAddRemoveGroupEvt();
     loadCategoriesData();
+    loadGroups();
 }
 
 function addDragEvt(id) {
@@ -94,6 +96,29 @@ function setDeleteEvent() {
             toggleDialogManager(2);
         });
     }
+}
+
+function setAddRemoveGroupEvt() {
+    let add_button = document.getElementById("add_group");
+    let remove_button = document.getElementById("remove_group");
+
+    add_button.addEventListener("click", evt => {
+        evt.preventDefault();
+        addGroup();
+    });
+    remove_button.addEventListener("click", evt => {
+        evt.preventDefault();
+        removeGroup();
+    });
+}
+
+function addGroup() {
+    let note_id = sessionStorage.getItem("edited_note");
+
+}
+
+function removeGroup() {
+    let note_id = sessionStorage.getItem("edited_note");
 }
 
 
@@ -198,7 +223,7 @@ function deleteBoard() {
                 },
                 credentials: "include",
                 body: JSON.stringify({
-                    board_id : board_id
+                    board_id: board_id
                 })
             })
             .then(response => response.json())
@@ -215,13 +240,17 @@ function deleteBoard() {
 
 function loadCategoriesData() {
     fetch("/api/categories").then(result => result.json()).then(result => {
-        categories_data = result.categories;
+        if (result.status === 200) {
+            categories_data = result.categories;
+        }
     });
 }
 
 function loadGroups() {
     fetch("/api/groups").then(result => result.json()).then(result => {
-        groups = result;
+        if (result.status === 200) {
+            groups = result.groups;
+        }
     });
 }
 
