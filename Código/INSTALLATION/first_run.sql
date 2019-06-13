@@ -19,6 +19,7 @@ CREATE TABLE boards(
     user_id VARCHAR(100) NOT NULL,
     board_id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(35) NOT NULL,
+    bg_id VARCHAR(200) NOT NULL,
     PRIMARY KEY (board_id),
     CONSTRAINT fk_boards_users FOREIGN KEY(user_id)
     REFERENCES users(email)
@@ -48,6 +49,14 @@ CREATE TABLE categories(
     PRIMARY KEY (categ_id)
 );
 
+DROP TABLE groups;
+CREATE TABLE groups(
+    table_id INT,
+    group_id INT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(100),
+    PRIMARY KEY (group_id)
+);
+
 DROP TABLE group_note;
 CREATE TABLE group_note(
     note_id INT NOT NULL,
@@ -61,14 +70,6 @@ CREATE TABLE group_note(
     ON DELETE CASCADE
 );
 
-DROP TABLE groups;
-CREATE TABLE groups(
-    table_id INT,
-    group_id INT NOT NULL AUTO_INCREMENT,
-    title VARCHAR(100),
-    PRIMARY KEY (group_id)
-);
-
 INSERT INTO categories VALUES("categ_1","background-color: #ff65a5;", "Violet");
 INSERT INTO categories VALUES("categ_2","background-color: #ffce65;", "Orange");
 INSERT INTO categories VALUES("categ_3","background-color: #65ff72;", "Green");
@@ -77,3 +78,10 @@ INSERT INTO categories VALUES("categ_5","background-color: #ff6565;", "Red");
 INSERT INTO categories VALUES("categ_6","background-color: #65faff;", "Cyan");
 INSERT INTO categories VALUES("categ_7","background-color: #c165ff;", "Purple");
 INSERT INTO categories VALUES("categ_default", "background-color: #ffff;", "Default");
+
+DROP TABLE group_note;
+DROP TABLE groups;
+DROP TABLE categories;
+DROP TABLE notes;
+DROP TABLE boards;
+DROP TABLE users;

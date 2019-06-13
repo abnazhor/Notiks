@@ -6,7 +6,7 @@ module.exports = function (app) {
     // se necesita que la aplicación haga uso de AJAX para cargar los tableros al realizar una modificación.
     app.get("/boards", (req, res) => {
         if (req.session.loggedin != null) {
-            const SQL = `SELECT * FROM boards WHERE user_id = '${req.session.loggedin}' LIMIT 10;`;
+            const SQL = `SELECT * FROM boards WHERE user_id = '${req.session.loggedin}' LIMIT 11;`;
             con.query(SQL, (err, result) => {
                 res.render("boards/boards", {
                     boards: result
@@ -57,8 +57,13 @@ module.exports = function (app) {
         if (req.session.loggedin) {
             const title = req.body.title;
             const email = req.session.loggedin;
-            const sql = `INSERT INTO boards(user_id, title) VALUES('${email}', '${title}')`;
-            con.query(sql, (err, result) => {
+            const bg = req.body.bg;
+            const sql = `INSERT INTO boards(user_id, title, bg_id) VALUES(?, ?, ?)`;
+            con.query(sql,[
+                email,
+                title,
+                bg
+            ], (err, result) => {
                 try {
                     if (err) throw err;
                     res.status(200).send({

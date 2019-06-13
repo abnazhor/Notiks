@@ -72,6 +72,9 @@ body {
     z-index: 1;
     border-radius: 3px 3px 0px 0px;
     color: #1a1a1b;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .note_header {
