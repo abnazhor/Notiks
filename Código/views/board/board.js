@@ -115,10 +115,60 @@ function setAddRemoveGroupEvt() {
 function addGroup() {
     let note_id = sessionStorage.getItem("edited_note");
 
+    let available_groups = document.getElementsByName("available_groups")[0];
+    let added_groups = document.getElementsByName("added_groups")[0];
+
+    let group_id = available_groups.options[available_groups.selectedIndex].value;
+    let group_title = available_groups.options[available_groups.selectedIndex].innerHTML;
+
+    fetch("/api/group/assign", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                note_id: note_id,
+                group_id: group_id
+            })
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.status === 200) {
+                let option = document.createElement("option");
+                option.value = group_id;
+                option.innerHTML = group_title;
+                added_groups.appendChild(option);
+            }
+        });
 }
 
 function removeGroup() {
     let note_id = sessionStorage.getItem("edited_note");
+
+    let available_groups = document.getElementsByName("available_groups")[0];
+    let added_groups = document.getElementsByName("added_groups")[0];
+
+    let group_id = added_groups.options[added_groups.selectedIndex].value;
+    let group_title = added_groups.options[added_groups.selectedIndex].innerHTML;
+
+    fetch("/api/group/deassign", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                note_id: note_id,
+                group_id: group_id
+            })
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.status === 200) {
+                added_groups.options[added_groups.selectedIndex].remove();
+            }
+        });
 }
 
 
@@ -127,9 +177,14 @@ function showContextMenu() {
     let mouse = window.event;
     let contextMenu = document.createElement("div");
     let op = document.createElement("a");
+    let op2 = document.createElement("a");
+    let hr = document.createElement("hr");
     op.href = "javascript:createNote();";
     op.innerHTML = "New note";
+    op2.href = "javascript:showHideGroup()";
+    op2.innerHTML = "Show/Hide groups";
     contextMenu.appendChild(op);
+    contextMenu.appendChild(op2);
     contextMenu.id = "contextMenu";
     contextMenu.style.left = calculatePosX(mouse.clientX) + "px";
     contextMenu.style.top = mouse.clientY + 5 + "px";
@@ -261,12 +316,69 @@ function manageSettings() {
     settingsWindow.style.display = "flex";
 }
 
-/* function manageGroups() {
+function loadGroupsIntoHider() {
+    let groupsSelector = document.getElementById("showHideGroups");
+    groupsSelector.innerHTML = "";
+
+    for (let i = 0; i < groups.length; i++) {
+        let option = document.createElement("option");
+        option.innerHTML = groups[i].title;
+        option.value = groups[i].group_id;
+        groupsSelector.appendChild(option);
+    }
+}
+
+function hideShow() {
+    let group_id = document.getElementById("showHideGroups").value;
+    let hideShowOption = document.querySelector('.showHide:checked').value
+    let board_id = window.location.href.split("/");
+    
+    board_id = board_id[board_id.length - 1];
+
+    let notes = document.getElementsByClassName("note");
+    let operation = "";
+
+    fetch("/api/notegroups", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                group_id: group_id,
+                board_id: board_id
+            })
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (hideShowOption === "hide") {
+                operation = "none";
+            } else {
+                operation = "block";
+            }
+
+            for (let i = 0; i < response.notes.length; i++) {
+                for (let j = 0; j < notes.length; j++) {
+                    if (notes[j].id == response.notes[i].note_id) {
+                        notes[j].style.display = operation;
+                    }
+                }
+            }
+
+            toggleDialogManager(2);
+            hideAllWindowsManagers();
+
+        });
+}
+
+function showHideGroup() {
     toggleDialogManager(1);
     hideAllWindowsManagers();
-    let groupWindow = document.getElementById("groupManager");
-    groupWindow.style.display = "flex";
-} */
+    loadGroupsIntoHider();
+    let showHideManager = document.getElementById("hideShowManager");
+    showHideManager.style.display = "flex";
+    clearContextMenu();
+}
 
 function manageNote() {
     toggleDialogManager(1);

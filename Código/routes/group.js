@@ -21,7 +21,7 @@ module.exports = function (app) {
     });
 
     app.get("/api/groups/:id", (req, res) => {
-        const GET_NOTE_GROUPS = "SELECT * FROM group_note WHERE note_id = ?";
+        const GET_NOTE_GROUPS = "SELECT group_note.group_id, title FROM group_note JOIN groups ON groups.group_id = group_note.group_id WHERE note_id = ?";
         if (req.session.loggedin) {
             con.query(GET_NOTE_GROUPS, [req.params.id], (err, result) => {
                 try {
@@ -98,6 +98,34 @@ module.exports = function (app) {
                 status: 403,
                 message: "Forbidden"
             });
+        }
+    });
+
+    app.post("/api/notegroups", (req, res) => {
+        const OBTAIN_NOTES = "SELECT group_note.note_id FROM group_note JOIN notes ON notes.note_id = group_note.note_id WHERE board_id = ? AND group_id = ?";
+        if(req.session.loggedin) {
+            let board_id = req.body.board_id;
+            let group_id = req.body.group_id;
+
+            con.query(OBTAIN_NOTES, [board_id, group_id], (err, result) => {
+                try {
+                    if(err) throw err;
+                    res.status(200).send({
+                        status:200,
+                        notes: result
+                    })
+                } catch(err) {
+                    res.status(400).send({
+                        status:400,
+                        message:"An error has occured"
+                    })
+                }
+            });
+        } else {
+            res.status(400).send({
+                status:400,
+                message:"Forbidden"
+            })
         }
     });
 };

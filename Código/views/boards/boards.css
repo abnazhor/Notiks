@@ -82,7 +82,7 @@ body {
 }
 
 #boards {
-    width: 70%;
+    width: 80%;
     margin: auto;
     margin-top: 1.5vh;
     position: relative;
@@ -121,42 +121,6 @@ body {
     font-family: 'Assistant', sans-serif;
     position: relative;
     left: 8%;
-}
-
-#navigator {
-    width: 22%;
-    margin: auto;
-    height: 50px;
-    position: relative;
-    display: flex;
-    clear: both;
-}
-
-#navigator button {
-    display: block;
-    background-color: #3b3b4e;
-    min-width: 200px;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
-    padding: 1vh 4% 1vh 4%;
-    border: 1px solid #3b3b4e;
-    color: #fff;
-    transition: background-color 0.5s, border 0.5s;
-    margin: 5px;
-    border-radius: 2px;
-}
-
-#navigator button:nth-child(odd) {
-    float: left;
-}
-
-#navigator button:nth-child(even) {
-    float: right;
-}
-
-#navigator button:hover {
-    cursor: pointer;
-    background-color: #43435a;
-    border: 1px solid #43435a;
 }
 
 #board_dialog {
@@ -212,6 +176,39 @@ body {
     border: 1px solid red;
     cursor: pointer;
     color: #fff;
+}
+
+#navigator {
+    width: 35%;
+    position: relative;
+    left: 32.5%;
+}   
+
+#navigator button {
+    display: block;
+    background-color: #3b3b4e;
+    min-width: 200px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+    padding: 1vh 4% 1vh 4%;
+    border: 1px solid #3b3b4e;
+    color: #fff;
+    transition: background-color 0.5s, border 0.5s;
+    margin: 5px;
+    border-radius: 2px;
+}
+
+#navigator button:nth-child(odd) {
+    float: left;
+}
+
+#navigator button:nth-child(even) {
+    float: right;
+}
+
+#navigator button:hover {
+    cursor: pointer;
+    background-color: #43435a;
+    border: 1px solid #43435a;
 }
 
 @media only screen and (max-width: 1100px) {

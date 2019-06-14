@@ -153,6 +153,23 @@ function loadGroupsIntoWindow(id) {
     }
 }
 
+function loadAddedGroupsIntoWindow(id) {
+    let added = document.getElementsByName("added_groups")[0];
+
+    fetch(`/api/groups/${id}`)
+        .then(response => response.json())
+        .then(response => {
+            if (response.groups.length != 0) {
+                for (let i = 0; i < response.groups.length; i++) {
+                    let option = document.createElement("option");
+                    option.value = response.groups[i].group_id;
+                    option.innerHTML = response.groups[i].title;
+                    added.appendChild(option);
+                }
+            }
+        });
+}
+
 function editNote(id) {
 
     try {
@@ -189,6 +206,7 @@ function editNote(id) {
     }
 
     loadGroupsIntoWindow(id);
+    loadAddedGroupsIntoWindow(id);
 
     manageNote();
 }
