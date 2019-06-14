@@ -48,7 +48,7 @@
             <div id="noteManager" class="manager">
                 <form action="javascript:verifyNoteData()" method="post">
                     <h3>Title</h3>
-                    <input type="text" name="title">
+                    <input type="text" name="title" maxlength="35">
                     <h3>Content</h3>
                     <textarea rows="3" cols="100" maxlength="250"></textarea>
                     <h3></h3>
@@ -79,11 +79,6 @@
                         <input type="submit" name="submit" value="Save changes">
                         <button id="delete_board">Delete board</button>
                     </div>
-                </form>
-            </div>
-            <div id="groupManager" class="manager">
-                <form action="" method="">
-                    <button class="cancel_button">Cancel</button>
                 </form>
             </div>
             <div id="hideShowManager" class="manager">

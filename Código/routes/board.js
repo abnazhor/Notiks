@@ -123,6 +123,39 @@ module.exports = function (app) {
         }
     });
 
+
+    app.post("/api/board/update", (req, res) => {
+        const UPDATE_TITLE = "UPDATE boards SET title = ? WHERE board_id = ?";
+        let board_id = req.body.board_id,
+            title = req.body.title;
+        if (req.session.loggedin) {
+            con.query(UPDATE_TITLE, [title, board_id], (err, result) => {
+                try {
+                    if (err) throw err;
+                    res.status(200).send({
+                        status: 200,
+                        message: "Successfully updated"
+                    });
+                } catch (err) {
+                    res.status(400).send({
+                        status: 400,
+                        message: "An error has occured"
+                    });
+                }
+            });
+        } else if (req.body.title.length > 40) {
+            res.status(400).send({
+                status: 400,
+                message: "Board title must have between 1 and 40 characters"
+            });
+        } else {
+            res.status(403).send({
+                status: 403,
+                message: "Forbidden"
+            });
+        }
+    });
+
     app.delete("/api/board", (req, res) => {
         const CHECK_USER = "SELECT note_id FROM notes JOIN boards ON boards.board_id = notes.note_id WHERE user_id = ?";
         const DELETE_NOTE = "DELETE FROM notes WHERE note_id = ?";

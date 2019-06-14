@@ -38,6 +38,7 @@ function loadOtherEvts() {
     setDeleteEvent();
     setDeleteBoardEvt();
     setAddRemoveGroupEvt();
+    setBoardId();
     loadCategoriesData();
     loadGroups();
 }
@@ -67,6 +68,17 @@ function movement(element, posX, posY) {
             element.parentElement.style.left = mouse.clientX - posX + "px";
         }, 15);
     }
+}
+
+function setBoardId() {
+    let board_id = location.href.split("/");
+    if(board_id[board_id.length-1] != "") {
+        board_id = board_id[board_id.length-1];
+    } else {
+        board_id = board_id[board_id.length-2];
+    }
+
+    sessionStorage.setItem("boardId", board_id);
 }
 
 function setDeleteBoardEvt() {
@@ -263,6 +275,29 @@ function verifyNoteData() {
 function verifyBoardData() {
     let form = document.getElementById("boardManager").getElementsByTagName("form")[0];
     let title = form.getElementsByTagName("input")[0].value;
+    let board_id = sessionStorage.getItem("boardId");
+
+    fetch("/api/board/update", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({
+            board_id: board_id,
+            title: title
+        })
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.status === 200) {
+            toggleDialogManager(2);
+            hideAllWindowsManagers();
+            display("Successfully updated board information", 2);
+        } else {
+            display(response.message);
+        }
+    });
 }
 
 function deleteBoard() {
@@ -332,7 +367,7 @@ function hideShow() {
     let group_id = document.getElementById("showHideGroups").value;
     let hideShowOption = document.querySelector('.showHide:checked').value
     let board_id = window.location.href.split("/");
-    
+
     board_id = board_id[board_id.length - 1];
 
     let notes = document.getElementsByClassName("note");
