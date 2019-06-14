@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "pm2 start server.js"
   },
   "repository": {
     "type": "git",
@@ -16,10 +16,6 @@
   ],
   "author": "Jorge Barrera Villaú",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/abnazhor/proyectoFinCicloDAW/issues"
-  },
-  "homepage": "https://github.com/abnazhor/proyectoFinCicloDAW#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
     "ejs": "^2.6.1",
