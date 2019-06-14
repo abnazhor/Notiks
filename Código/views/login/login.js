@@ -48,15 +48,19 @@ function verifyLogIn() {
         }
     } catch (err) {
         display("Something is wrong. Please check the information provided.", 1);
-    } 
+    }
 }
 
 function verifySignUp() {
     let fields = document.forms[1].getElementsByTagName("input");
     let valid = true;
     try {
-        if (!/^[a-zA-Z0-9]{4,15}$/.test(fields[0].value) && valid) {
-            display("Username contains illegal characters.", 1);
+        if (!/^[a-zA-Z0-9\s\_]{4,15}$/.test(fields[0].value) && valid) {
+            if (fields[0].value.length < 4) {
+                display("Username must have a length between 4 and 15 characters.");
+            } else {
+                display("Username can only contain numbers, letters and spaces.", 1);
+            }
             valid = false;
         }
 
@@ -67,12 +71,18 @@ function verifySignUp() {
         }
 
         if (!/^^(?=.*\d).{8,20}$$/.test(fields[2].value) && valid) {
-            display("Password contains illegal characters.", 1);
+            if(fields[2].value.length < 8) {
+                display("Password must have at least 8 characters.", 1);
+            } else if (fields[2].value.indexOf(/[0-9]/) === -1) {
+                display("Password must have at least one number.", 1);
+            } else {
+                display("Password contains illegal characters.", 1);
+            }
             valid = false;
         }
 
         if (fields[2].value != fields[3].value && valid) {
-            displayError("Passwords don't match.", 1);
+            display("Passwords don't match.", 1);
             valid = false;
         }
 
@@ -94,7 +104,7 @@ function verifySignUp() {
                         display("You have been successfully registered. You can now log in.", 2);
                         moveCurtain();
                     } else {
-                        display("Something went wrong. Please try again.",1);
+                        display("Email has already been registered. Please try again.", 1);
                     }
                 });
         }
