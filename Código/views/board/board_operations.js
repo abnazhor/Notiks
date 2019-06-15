@@ -74,6 +74,7 @@ function createNote() {
                 desktop.appendChild(note);
                 updateIdNotes();
                 addDragEvt(note.id);
+                note.addEventListener("mouseup", evt => saveNotePos(note.id, note.style.left, note.style.top));
             });
         clearContextMenu();
     }

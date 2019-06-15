@@ -85,8 +85,10 @@
                 <form action="javascript:hideShow()" method="post">
                     <h3>Select the group to hide</h3>
                     <select id="showHideGroups"></select><br>
-                    <input class="showHide" type="radio" name="showHide" value="hide" checked><p>Hide</p>
-                    <input class="showHide" type="radio" name="showHide" value="show"><p>Show</p>
+                    <div>
+                        <label>Hide</label><input class="showHide" type="radio" name="showHide" value="hide" checked><br>
+                        <label>Show</label><input class="showHide" type="radio" name="showHide" value="show">
+                    </div><br>
                     <div>
                         <button class="cancel_button">Cancel</button>
                         <input type="submit" name="submit" value="Done">

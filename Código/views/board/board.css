@@ -208,7 +208,7 @@ body {
     resize: none;
 }
 
-.manager select[name="category"] {
+.manager select[name="category"], #hideShowManager select {
     width: 82%;
     margin: auto;
     display: block;
