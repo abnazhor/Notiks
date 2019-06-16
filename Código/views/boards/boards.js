@@ -26,24 +26,32 @@ function displayBoard(opc) {
 function createBoard() {
     let title = document.getElementById("board_create").getElementsByTagName("input")[0].value;
 
-    fetch("/api/board", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            credentials: "include",
-            body: JSON.stringify({
-                title: title,
-                bg: "bg_default"
+
+    if (title.length > 40) {
+        display("Board title exceeds maximum length.", 1);
+    } else {
+        fetch("/api/board", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    title: title,
+                    bg: "bg_default"
+                })
             })
-        })
-        .then(response => response.json())
-        .then(response => {
-            if (response.status == 200) {
-                displayBoard(0);
-                loadBoards();
-            } else {}
-        });
+            .then(response => response.json())
+            .then(response => {
+                if (response.status == 200) {
+                    display("Successfully created board", 2);
+                    displayBoard(0);
+                    loadBoards();
+                } else {
+                    display("An error has occured while trying to create the board", 1);
+                }
+            });
+    }
 }
 
 function loadBoards() {
@@ -179,6 +187,21 @@ function beautifyTransition(opc) {
         boards.style.opacity = "1";
     }
 } */
+
+function display(message, code) {
+    let error_msg = document.getElementById("display_msg");
+    let error_log = document.getElementById("display_log");
+    error_msg.innerHTML = message;
+    error_log.style.display = "block";
+    setTimeout(() => error_log.style.opacity = 1, 500);
+    if (code == 1) {
+        error_msg.style.backgroundColor = "rgba(255, 0, 0, 0.63)";
+    } else if (code == 2) {
+        display_msg.style.backgroundColor = "rgba(17, 219, 84, 0.493)";
+    }
+    setTimeout(() => error_log.style.opacity = 0, 3000);
+    setTimeout(() => error_log.style.display = "none", 4000);
+}
 
 function loadBoardFunctionality() {
     let boards = document.getElementsByClassName("board");
