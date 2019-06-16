@@ -1,6 +1,6 @@
 {
-  "name": "proyectofinciclodaw",
-  "version": "0.0.1",
+  "name": "notiks",
+  "version": "1.0.0",
   "description": "Proyecto de fin de ciclo de DAW.",
   "main": "server.js",
   "scripts": {

@@ -69,13 +69,13 @@ CREATE TABLE group_note(
     ON DELETE CASCADE
 );
 
-INSERT INTO categories VALUES("categ_1","background-color: #ff65a5;", "Violet");
-INSERT INTO categories VALUES("categ_2","background-color: #ffce65;", "Orange");
-INSERT INTO categories VALUES("categ_3","background-color: #65ff72;", "Green");
-INSERT INTO categories VALUES("categ_4","background-color: #6565ff;", "Blue");
-INSERT INTO categories VALUES("categ_5","background-color: #ff6565;", "Red");
-INSERT INTO categories VALUES("categ_6","background-color: #65faff;", "Cyan");
-INSERT INTO categories VALUES("categ_7","background-color: #c165ff;", "Purple");
+INSERT INTO categories VALUES("categ_1","background-color: #ff65a5;", "Do not forget");
+INSERT INTO categories VALUES("categ_2","background-color: #ffce65;", "Warning");
+INSERT INTO categories VALUES("categ_3","background-color: #65ff72;", "Others");
+INSERT INTO categories VALUES("categ_4","background-color: #6565ff;", "To do");
+INSERT INTO categories VALUES("categ_5","background-color: #ff6565;", "Important");
+INSERT INTO categories VALUES("categ_6","background-color: #65faff;", "Remember");
+INSERT INTO categories VALUES("categ_7","background-color: #c165ff; color: #ffff;", "Done");
 INSERT INTO categories VALUES("categ_default", "background-color: #ffff;", "Default");
 
 INSERT INTO groups(title) VALUES("Finances");
