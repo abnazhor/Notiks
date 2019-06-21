@@ -75,7 +75,7 @@ INSERT INTO categories VALUES("categ_3","background-color: #65ff72;", "Others");
 INSERT INTO categories VALUES("categ_4","background-color: #6565ff;", "To do");
 INSERT INTO categories VALUES("categ_5","background-color: #ff6565;", "Important");
 INSERT INTO categories VALUES("categ_6","background-color: #65faff;", "Remember");
-INSERT INTO categories VALUES("categ_7","background-color: #c165ff; color: #ffff;", "Done");
+INSERT INTO categories VALUES("categ_7","background-color: #c165ff;", "Done");
 INSERT INTO categories VALUES("categ_default", "background-color: #ffff;", "Default");
 
 INSERT INTO groups(title) VALUES("Finances");
