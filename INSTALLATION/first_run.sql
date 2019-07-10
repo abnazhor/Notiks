@@ -85,10 +85,3 @@ INSERT INTO groups(title) VALUES("Animals");
 INSERT INTO groups(title) VALUES("Food");
 INSERT INTO groups(title) VALUES("General");
 INSERT INTO groups(title) VALUES("Videogames");
-
-DROP TABLE group_note;
-DROP TABLE groups;
-DROP TABLE categories;
-DROP TABLE notes;
-DROP TABLE boards;
-DROP TABLE users;
