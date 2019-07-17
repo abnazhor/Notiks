@@ -2,7 +2,7 @@
 
 <p align="center">A web application to manage your notes as if they were desktop notes.</p>
 
-<center><img src="https://i.imgur.com/6mhVW8n.png"></center>
+![](https://i.imgur.com/6mhVW8n.png){style="display:block;margin:auto;"}
 
 <h1 align="center">Web View</h1>
 
