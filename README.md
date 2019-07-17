@@ -1,8 +1,9 @@
 <h1 align="center">Notiks</h1>
 
-<p align="center">A web application to manage your notes as if they were desktop notes.</p>
+<p align="center">A web application to manage your notes as if they were desktop notes.
+</p>
 
-![](https://i.imgur.com/6mhVW8n.png#center)
+<p align="center"><img src="https://i.imgur.com/6mhVW8n.png"></p>
 
 <h1 align="center">Web View</h1>
 
