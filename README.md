@@ -1,2 +1,2 @@
-<h3 align=center> Proyecto de fin de ciclo de Desarrollo de Aplicaciones Web.</h3>
-<p align=center>Realizado por Jorge Barrera Villaú</p>
+<h3 align=center> Notiks</h3>
+<p align=center>A web application designed to manage your notes as if you were working on desktop</p>
