@@ -2,11 +2,11 @@
 
 <p align="center">A web application to manage your notes as if they were desktop notes.</p>
 
-![](/home/jorge/Escritorio/2019-07-18_00-09.png)
+![](https://i.imgur.com/6mhVW8n.png)
 
 <h1 align="center">Web View</h1>
 
-![](/home/jorge/Descargas/Captura el 2019-07-18 a las 00.16.05.png)
+![](https://i.imgur.com/nMDHMiZ.png)
 
 <h1 align="center">Installation</h1>
 
