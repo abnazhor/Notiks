@@ -1,26 +1,28 @@
 {
-  "name": "notiks",
-  "version": "1.0.0",
-  "description": "Proyecto de fin de ciclo de DAW.",
-  "main": "server.js",
+  "name": "TODO",
+  "description": "TODO",
+  "version": "0.0.1",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "pm2 start server.js"
+    "dev": "sapper dev",
+    "build": "sapper build",
+    "export": "sapper export",
+    "start": "node __sapper__/build",
+    "cy:run": "cypress run",
+    "cy:open": "cypress open",
+    "test": "run-p --race dev cy:run"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/abnazhor/proyectoFinCicloDAW.git"
-  },
-  "keywords": [
-    "proyectofinciclo"
-  ],
-  "author": "Jorge Barrera Villaú",
-  "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.6",
-    "ejs": "^2.6.1",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.1",
     "express": "^4.17.1",
-    "express-session": "^1.16.1",
-    "mysql": "^2.17.1"
+    "mysql": "^2.17.1",
+    "sirv": "^0.4.0"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "sapper": "^0.27.0",
+    "svelte": "^3.0.0",
+    "svelte-loader": "^2.9.0",
+    "webpack": "^4.7.0"
   }
 }
